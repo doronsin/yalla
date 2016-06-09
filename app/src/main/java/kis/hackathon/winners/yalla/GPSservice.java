@@ -81,6 +81,7 @@ public class GPSservice extends IntentService implements
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.d(TAG,location.getLongitude()+"---"+location.getLatitude());
         if (location.hasAccuracy() && location.getAccuracy() <= TWENTY_METERS) {
             // found a good location
             /*
@@ -89,6 +90,7 @@ public class GPSservice extends IntentService implements
             c. anyway - kill yourself now
              */
             killMyself();
+
         }
     }
 
