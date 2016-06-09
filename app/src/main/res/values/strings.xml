@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">yalla</string>
+    <string name="example">Example</string>
+    <string name="find_contact">find contact!!</string>
 </resources>
