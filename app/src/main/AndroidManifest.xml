@@ -18,7 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service android:name=".GPSservice"/>
+        <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyAhY3TCTaQ8YMVYWsQNjUovpWCouq4gjUw"/>
 
     </application>
 
