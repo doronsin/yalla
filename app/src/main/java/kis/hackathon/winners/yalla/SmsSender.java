@@ -17,7 +17,7 @@ import java.util.Formatter;
  * In charge of sending the sms messages.
  */
 public class SmsSender {
-    public static final int PERMISSION_SEND_SMS = 123;
+    public static final int REQ_PERMISSION_SEND_SMS = 123;
     private static SmsSender instance;
     private static PendingIntent smsSentIntent = null;
     private static PendingIntent smsDeliveredIntent = null;
@@ -40,7 +40,7 @@ public class SmsSender {
     private void sendSms(String phoneNum,String content)
     {
         SmsManager smsManager=SmsManager.getDefault();
-        smsManager.sendTextMessage(phoneNum,null,content,smsSentIntent,smsDeliveredIntent);
+        smsManager.sendTextMessage(phoneNum, null, content, smsSentIntent, smsDeliveredIntent);
     }
 
     public void sendSms(int minutesToarrive,String phoenNum)
@@ -54,11 +54,5 @@ public class SmsSender {
         return result== PackageManager.PERMISSION_GRANTED;
     }
 
-    public void askForPermission(Activity activity)
-    {
 
-        ActivityCompat.requestPermissions(activity,
-                new String[]{Manifest.permission.SEND_SMS},
-                PERMISSION_SEND_SMS);
-    }
 }
