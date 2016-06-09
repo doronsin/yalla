@@ -3,5 +3,6 @@
     <string name="sms_minutes">I\'m here in %d minutes!</string>
     <string name="trans_contact">contact_tranition</string>
     <string name="pick_person">some_sample_test</string>
-    <string name="find_contact">find the contact sample</string>
+    <string name="example">Example</string>
+    <string name="find_contact">find contact!!</string>
 </resources>
