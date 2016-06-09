@@ -4,11 +4,13 @@ import android.app.Application;
 
 /**
  * Created by odelya_krief on 09-Jun-16.
+ *
+ * application class
  */
 public class YallaApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        SmsSender.init(this);
+        YallaSmsManager.init(this);
     }
 }
