@@ -3,7 +3,6 @@ package kis.hackathon.winners.yalla;
 import android.app.IntentService;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -13,6 +12,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.maps.model.LatLng;
 
 /**
  * Created by odelya_krief on 09-Jun-16.
@@ -21,7 +21,9 @@ import com.google.android.gms.location.LocationServices;
 public class GPSservice extends IntentService implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener,
+        TimeReady
+{
 
 
     private static final String TAG ="GPSservice";
@@ -84,19 +86,54 @@ public class GPSservice extends IntentService implements
         Log.d(TAG,location.getLongitude()+"---"+location.getLatitude());
         if (location.hasAccuracy() && location.getAccuracy() <= TWENTY_METERS) {
             // found a good location
-            /*
-            a. if the location is close enough to dest, send SMS and close everything
-            b. else - check how nuch time needed, and start a new service to wake up at that time
-            c. anyway - kill yourself now
-             */
-            killMyself();
+            onGoodLocationFound(location);
 
         }
     }
 
-    public void killMyself() {
+    private void onGoodLocationFound(Location location) {
+        disconnectLocations();
+        try {
+            DirectionsManager.sendRequest(
+                    new LatLng(location.getLatitude(), location.getLongitude()),
+                    YallaSmsManager.getInstance().get_dest(),
+                    this
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void disconnectLocations() {
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         mGoogleApiClient.disconnect();
+    }
+
+    public void killMyself() {
+        try {
+            disconnectLocations();
+        } catch (Exception ignore) {}
         stopSelf();
+    }
+
+    @Override
+    public void onTimeFailure() {
+
+    }
+
+    @Override
+    public void onTimeReady(int timeUntilArrive) {
+        int minutesToSleep = timeUntilArrive - YallaSmsManager.getInstance().get_minutesToArrive();
+        if (minutesToSleep <= 0) {
+            YallaSmsManager.getInstance().sendSms();
+            killMyself();
+        } else {
+            try {
+                Thread.sleep(minutesToSleep * 60 * 1000);
+                mGoogleApiClient.connect();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

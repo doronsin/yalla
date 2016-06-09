@@ -2,7 +2,12 @@
     <string name="app_name">yalla</string>
     <string name="sms_minutes">I\'m here in %d minutes!</string>
     <string name="trans_contact">contact_tranition</string>
+    <string name="trans_place">contact_tranition</string>
     <string name="pick_person">some_sample_test</string>
     <string name="example">Example</string>
     <string name="find_contact">find contact!!</string>
+    <string name="sample">This text won\'t be showed</string>
+    <string name="choose_person">choose contact</string>
+    <string name="contact_saved">Will call %s</string>
+    <string name="close_to_message">When close to %s</string>
 </resources>

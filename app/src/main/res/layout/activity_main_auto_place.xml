@@ -9,14 +9,16 @@ android:id="@+id/place_autocomplete_fragment"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-    />
+    tools:layout="@layout/abc_dialog_title_material" />
 
 
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/place_autocomplete_fragment"
+        >
     </SearchView>
 
     <TextView

@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements TimeReady {
 //        if(!SmsSender.getInstance().isAuthorised())
 //          PermissionAsker.askForPermission(this,Manifest.permission.SEND_SMS,SmsSender.REQ_PERMISSION_SEND_SMS);
 //      SmsSender.getInstance().sendSms(2, "0535246156");
-        AutoPlaces.populateAutoPlaces(this);
+//        AutoPlaces.populateAutoPlaces(this);
 
         Log.d(TAG, "before!");
         try {

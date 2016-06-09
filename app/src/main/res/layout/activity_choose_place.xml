@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
     style="@style/YallaActivity"
+    tools:targetApi="lollipop"
     >
 
 
@@ -11,22 +13,33 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/tv_place_person"
+        android:layout_marginTop="16dp"
         android:transitionName="@string/trans_contact"
         android:gravity="center"
         />
 
-    <EditText
+    <fragment
+        android:id="@+id/frag_place"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="insert adress please"
+        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+        android:layout_centerVertical="true"
+        android:transitionName="@string/trans_place"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Go!"
-        android:background="@color/colorAccent"
-        android:layout_below="@+id/edt_person"
-        android:layout_centerHorizontal="true"
-        />
+
+    <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="insert adress please"-->
+        <!--/>-->
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Go!"-->
+        <!--android:background="@color/colorAccent"-->
+        <!--android:layout_below="@+id/edt_person"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--/>-->
 </RelativeLayout>

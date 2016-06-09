@@ -1,40 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
+    style="@style/YallaActivity"
     >
-
-
-    <EditText
+    <SearchView
+        android:id="@+id/sv_person"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="64dp"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/edt_person"
-        android:hint="which person do you want to call?"
         android:transitionName="@string/trans_contact"
-        android:gravity="center"
-        />
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" >
-    </SearchView>
+        android:layout_centerVertical="true"
+        android:queryHint="@string/choose_person"
+    />
 
-    <TextView
-        android:id="@+id/searchViewResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/searchView"
-        android:layout_centerHorizontal="true"
-        android:text="@string/pick_person" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Go!"
-        android:background="@color/colorAccent"
-        android:layout_below="@+id/edt_person"
-        android:layout_centerHorizontal="true"
-        />
+    <!--<TextView-->
+        <!--android:id="@+id/searchViewResult"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/searchView"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:text="@string/example" />-->
+
+    <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginTop="64dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:id="@+id/edt_person"-->
+        <!--android:hint="which person do you want to call?"-->
+        <!--android:gravity="center"-->
+        <!--/>-->
+    <!---->
+
+    <!--<TextView-->
+        <!--android:id="@+id/searchViewResult"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/searchView"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:text="@string/pick_person" />-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Go!"-->
+        <!--android:background="@color/colorAccent"-->
+        <!--android:layout_below="@+id/edt_person"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--/>-->
 </RelativeLayout>
