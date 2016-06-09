@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "kis.hackathon.winners.yalla"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -25,4 +25,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.3.1'
     compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
+    compile group: 'com.google.appengine', name: 'appengine-api-1.0-sdk', version: '1.6.1'
+    compile group: 'com.google.maps', name: 'google-maps-services', version: '0.1.12'
 }
