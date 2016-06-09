@@ -18,13 +18,11 @@ public class MainActivity extends AppCompatActivity implements TimeReady {
 
     private static final String TAG = "main_activity";
 
-    private static final String TAG = "main_activity";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
+
 
 // use like that        startService(new Intent(this,GPSservice.class));
         Log.d(TAG, "starting");
@@ -56,9 +54,13 @@ public class MainActivity extends AppCompatActivity implements TimeReady {
 //
 //    }
 //
-//    @Override
-//    public void onTimeReady(int timeUntilArrive) {
-//        Log.d(TAG, "time ready!!!" + timeUntilArrive);
-//    }
+    @Override
+    public void onTimeReady(int timeUntilArrive) {
+        Log.d(TAG, "time ready!!!" + timeUntilArrive);
+    }
 
+    @Override
+    public void onTimeFailure() {
+        Log.d(TAG, "time failure");
+    }
 }

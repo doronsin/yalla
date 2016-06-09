@@ -7,4 +7,5 @@ package kis.hackathon.winners.yalla;
  */
 public interface TimeReady {
     public void onTimeReady(int timeUntilArrive);
+    public void onTimeFailure();
 }

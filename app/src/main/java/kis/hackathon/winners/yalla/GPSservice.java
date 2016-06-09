@@ -16,8 +16,12 @@ import com.google.android.gms.location.LocationServices;
 
 /**
  * Created by odelya_krief on 09-Jun-16.
+ * main thread. will send the SMSs
  */
-public class GPSservice extends IntentService implements GoogleApiClient.ConnectionCallbacks ,GoogleApiClient.OnConnectionFailedListener,LocationListener {
+public class GPSservice extends IntentService implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
 
 
     private static final String TAG ="GPSservice";
@@ -38,8 +42,8 @@ public class GPSservice extends IntentService implements GoogleApiClient.Connect
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API).build();
-        if (mGoogleApiClient != null)
-            mGoogleApiClient.connect();
+//        if (mGoogleApiClient != null)
+        mGoogleApiClient.connect();
     }
 
 
