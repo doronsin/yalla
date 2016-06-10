@@ -25,13 +25,14 @@ public class MyDataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_MAIN_TABLE="CREATE TABLE NOT EXIST "+ TABLE_NAME+ "(" +
-                MA_KEY+"INTEGER PRIMARY KEY "+
+        String CREATE_MAIN_TABLE="CREATE TABLE IF NOT EXISTS "+ TABLE_NAME+ "(" +
+                MA_KEY+" INTEGER PRIMARY KEY,"+
                 MA_KEY_PHONE + " INTEGER," +
                 MA_KEY_ADDRESS + " TEXT,"+
                 MA_KEY_TIME+" INTEGER)";
-        db.execSQL(CREATE_MAIN_TABLE);
         Log.d(TAG, CREATE_MAIN_TABLE);
+        db.execSQL(CREATE_MAIN_TABLE);
+
 
     }
 
@@ -40,31 +41,31 @@ public class MyDataBase extends SQLiteOpenHelper {
 
 
     }
-    public void insert(TableItem tableItem,SQLiteDatabase db)
+    public void insert(TableItem tableItem)
     {
         ContentValues values = new ContentValues();
-        values.put(MA_KEY_PHONE,tableItem.phone);
-        values.put(MA_KEY_ADDRESS,tableItem.address);
-        values.put(MA_KEY_TIME,tableItem.time);
-        db.insert(TABLE_NAME,null,values);
+        values.put(MA_KEY_PHONE, tableItem.phone);
+        values.put(MA_KEY_ADDRESS, tableItem.address);
+        values.put(MA_KEY_TIME, tableItem.time);
+        this.getWritableDatabase().insert(TABLE_NAME,null,values);
     }
-    public void update(TableItem tableItem,SQLiteDatabase db)
+    public void update(TableItem tableItem)
     {
         ContentValues values = new ContentValues();
-        values.put(MA_KEY_PHONE,tableItem.phone);
-        values.put(MA_KEY_ADDRESS,tableItem.address);
-        values.put(MA_KEY_TIME,tableItem.time);
-        db.update(TABLE_NAME, values, String.format(MA_KEY_PHONE + "=?"), new String[]{tableItem.phone});
+        values.put(MA_KEY_PHONE, tableItem.phone);
+        values.put(MA_KEY_ADDRESS, tableItem.address);
+        values.put(MA_KEY_TIME, tableItem.time);
+        this.getWritableDatabase().update(TABLE_NAME, values, String.format(MA_KEY_PHONE + "=?"), new String[]{tableItem.phone});
     }
-    public void delete(TableItem tableItem,SQLiteDatabase db)
+    public void delete(TableItem tableItem)
     {
-        //todo in the future if we  ever want to delete
+        //TODO in the future if we  ever want to delete
     }
-    public TableItem getItem(String phone,SQLiteDatabase db)
+    public TableItem getItem(String phone)
     {
         String sql="select * from "+TABLE_NAME+" where "+MA_KEY_PHONE+"="+phone;
-        Cursor result= db.rawQuery(sql, null);//not sure if it's ok
-        Cursor cursor=db.query(TABLE_NAME,new String[]{
+        Cursor result= this.getWritableDatabase().rawQuery(sql, null);//not sure if it's ok
+        Cursor cursor=this.getWritableDatabase().query(TABLE_NAME,new String[]{
                 MA_KEY_PHONE,MA_KEY_ADDRESS,MA_KEY_TIME},MA_KEY_PHONE+"=?",new String[]{phone},null,null,null,null);
         if (cursor!=null)
         {
@@ -76,7 +77,7 @@ public class MyDataBase extends SQLiteOpenHelper {
             cursor.close();
             return tableItem;
         }
-        return null;
+        return  null;
 
     }
 
