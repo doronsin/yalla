@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         AutoPlaces.populateAutoPlaces(this);
        SeekBar seekBar=((SeekBar) findViewById(R.id.sb_ma));
         //seekBar.getThumb().setColorFilter(getColor(R.color.gray), PorterDuff.Mode.MULTIPLY);
+        seekBar.setProgress(50);
+        updateMinutesTranceText(seekBar.getProgress());
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int seekBarProgress = 0;
@@ -47,6 +49,29 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+        SetIconesListener();
+    }
+
+    private void SetIconesListener() {
+        ImageView man = (ImageView) findViewById(R.id.iv_man);
+        ImageView woman = (ImageView) findViewById(R.id.iv_woman);
+        man.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                iconClickedIsMan(true);
+            }
+        });
+        woman.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                iconClickedIsMan(false);
+            }
+        });
+    }
+
+    private void iconClickedIsMan(boolean b) {
+        SeekBar seekBar=((SeekBar) findViewById(R.id.sb_ma));
+        int additon = b?-5:5;
+        seekBar.setProgress(Math.min(seekBar.getProgress()+ additon,100));
+
     }
 
     private void updateMinutesTranceText(int progress) {
@@ -54,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView woman = (ImageView) findViewById(R.id.iv_woman);
         TextView textView= (TextView) findViewById(R.id.tv_minutes);
         float womanAlph = Math.min(1,(float)(progress+50)/100);
-        float manAlph = Math.min(1, (1 - progress + 50) / 100);
+        float manAlph = Math.min(1, (float)1-(float)progress/100+(float)0.5);
         Log.d(TAG,"manAlph:"+manAlph+ " womanAlph"+womanAlph);
         man.setAlpha(manAlph);
         woman.setAlpha(womanAlph);

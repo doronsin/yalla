@@ -29,10 +29,10 @@
     <ImageView
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:background="@drawable/man_icon"
-        android:id="@+id/iv_man"
-        android:layout_alignTop="@+id/iv_woman"
-        android:layout_alignParentRight="true"
+        android:background="@drawable/woman_icon"
+        android:id="@+id/iv_woman"
+
+        android:layout_below="@+id/tv_minutes"
         android:layout_alignParentEnd="true" />
     <TextView
         android:layout_below="@+id/sb_ma"
@@ -44,8 +44,8 @@
 
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:background="@drawable/woman_icon"
-        android:id="@+id/iv_woman"
+        android:background="@drawable/man_icon"
+        android:id="@+id/iv_man"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
