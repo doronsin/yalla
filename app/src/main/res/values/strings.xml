@@ -7,7 +7,7 @@
     <string name="example">Example</string>
     <string name="find_contact">find contact!!</string>
     <string name="sample">This text won\'t be showed</string>
-    <string name="choose_person">choose contact</string>
+    <string name="choose_person">choose contact please</string>
     <string name="contact_saved">Will call %s</string>
     <string name="close_to_message">When close to %s</string>
 </resources>

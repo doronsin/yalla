@@ -2,8 +2,8 @@
 <resources>
     <color name="colorPrimary">@color/main_purple</color>
     <color name="colorPrimaryDark">#340d64</color>
-    <color name="colorAccent">@color/main_secondary</color>
-    <color name="main_bg">#a1c4ff</color>
-    <color name="main_purple">#450e75</color>
-    <color name="main_secondary">#efe97c</color>
+    <color name="colorAccent">#1a237e</color>
+    <color name="main_bg">#90caf9</color>
+    <color name="main_purple">#4a148c</color>
+    <color name="main_secondary">#ffe57f</color>
 </resources>
