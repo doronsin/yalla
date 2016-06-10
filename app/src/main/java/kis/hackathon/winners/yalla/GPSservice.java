@@ -133,6 +133,7 @@ public class GPSservice extends IntentService implements
         int minutesToSleep = timeUntilArrive - YallaSmsManager.getInstance().get_minutesToArrive();
         Log.d(TAG, "onTimeReady, time until arrive: "+timeUntilArrive);
         if (minutesToSleep <= 0) {
+            YallaSmsManager.getInstance().set_minutesToArrive(timeUntilArrive);
             YallaSmsManager.getInstance().sendSms();
             Log.d(TAG, "sms sent!");
             killMyself();

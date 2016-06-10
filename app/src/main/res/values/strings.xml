@@ -15,4 +15,5 @@
     <string name="go">Go!</string>
     <string name="choose_a_contact">Please Choose a Contact</string>
     <string name="choos_dest">Please Choose a Destination</string>
+    <string name="try_again_permissions">Listen, we don\'t have anything to do here if we can\'t use the internet and gps to check the state and send SMSs on behalf of you. Let\'s try again shall we? ;)</string>
 </resources>

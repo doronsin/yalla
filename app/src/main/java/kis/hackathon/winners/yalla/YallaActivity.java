@@ -1,30 +1,23 @@
 package kis.hackathon.winners.yalla;
 
-import android.app.Activity;
-import android.app.SearchManager;
-import android.app.SearchableInfo;
-import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.TwoLineListItem;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Created by Re'em on 6/10/2016.
@@ -32,7 +25,7 @@ import java.util.List;
  * main activity
  */
 
-public class YallaActivity extends Activity {
+public class YallaActivity extends AppCompatActivity {
     private static final boolean OPEN_SEARCH_VIEW = false;
     private static final String TAG = "yalla";
     private static final double MIN_ALPHA_FOR_VIEWS = 0.3f;
@@ -57,6 +50,7 @@ public class YallaActivity extends Activity {
         populateContacts();
         initViews();
         AutoPlaces.populateAutoPlaces(this, R.id.frag_place, _tvPlace);
+        PermissionAsker.askForPermissionsIfNeeded(this);
     }
 
     private void populateContacts() {
@@ -104,18 +98,19 @@ public class YallaActivity extends Activity {
             }
         });
         _actvContacts = (AutoCompleteTextView) findViewById(R.id.actv_contacts);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, _allContactNames);
         _actvContacts.setAdapter(adapter);
         _actvContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Contact relevant = null;
-                String current = _allContactNames[position];
+                String current = adapter.getItem(position);
                 for (Contact c: _allContacts)
                     if (c.name.equals(current))
                         relevant = c;
                 assert relevant != null;
+
                 YallaSmsManager.getInstance().set_phoneNumber(relevant.phone);
                 Log.d(TAG, "phone number changed");
             }
@@ -164,10 +159,22 @@ public class YallaActivity extends Activity {
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if(requestCode==PermissionAsker.REQUEST_ASK_PERMISSIONS){
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, R.string.try_again_permissions, Toast.LENGTH_LONG).show();
+                    PermissionAsker.askForPermissionsIfNeeded(this);
+                }
 
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 
-
-private class Contact {
+    private class Contact {
         String name, phone;
         Contact(String name, String phone) {
             this.name = name;

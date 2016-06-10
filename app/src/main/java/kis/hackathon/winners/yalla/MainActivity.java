@@ -43,12 +43,12 @@ public class MainActivity extends AppCompatActivity  {
 //        setContentView(R.layout.activity_main_auto_place);
         Log.d(TAG, "starting");
 //        if(!SmsSender.getInstance().isAuthorised())
-//          PermissionAsker.askForPermission//(this,Manifest.permission.SEND_SMS,SmsSender.REQ_PERMISSION_SEND_SMS);
+//          PermissionAsker.askForPermissionsIfNeeded//(this,Manifest.permission.SEND_SMS,SmsSender.REQ_PERMISSION_SEND_SMS);
 //   	SmsSender.getInstance().sendSms(2, "0535246156");
         startService(new Intent(this, GPSservice.class));
         Log.d(TAG, "starting");
 //        if(!SmsSender.getInstance().isAuthorised())
-//          PermissionAsker.askForPermission(this,Manifest.permission.SEND_SMS,SmsSender.REQ_PERMISSION_SEND_SMS);
+//          PermissionAsker.askForPermissionsIfNeeded(this,Manifest.permission.SEND_SMS,SmsSender.REQ_PERMISSION_SEND_SMS);
 //      SmsSender.getInstance().sendSms(2, "0535246156");
 //        AutoPlaces.populateAutoPlaces(this);
 
