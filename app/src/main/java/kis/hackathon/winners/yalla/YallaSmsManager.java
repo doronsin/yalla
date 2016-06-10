@@ -19,26 +19,13 @@ public class YallaSmsManager {
 
 
     private YallaApp _app;
-    private String _phoneNumber;
-    private String _contactName;
-    private int _minutesToArrive;
-    private LatLng _dest;
-    private String _placeName;
-
-
-    public String get_contactName() {
-        return _contactName;
-    }
-
-    public void set_contactName(String _contactName) {
-        this._contactName = _contactName;
-    }
+    private String _phoneNumber = null;
+    private int _minutesToArrive = -1;
+    private LatLng _dest = null;
+    private String _placeName = null;
 
 
 
-    public String get_phoneNumber() {
-        return _phoneNumber;
-    }
 
     public void set_phoneNumber(String _phoneNumber) {
         this._phoneNumber = _phoneNumber;
@@ -95,6 +82,11 @@ public class YallaSmsManager {
 //        int result=_app.checkSelfPermission(Manifest.permission.SEND_SMS);
 //        return result== PackageManager.PERMISSION_GRANTED;
 //    }
-
+    public boolean isReady() {
+        return _minutesToArrive >= 0
+                && _phoneNumber != null
+                && +_phoneNumber.length() > 0
+                && _dest != null;
+    }
 
 }

@@ -12,4 +12,15 @@
         <item name="android:background">@color/main_bg</item>
     </style>
 
+    <style name="TextViewTop">
+        <item name="android:background">@drawable/textbox</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:gravity">start</item>
+
+    </style>
+
 </resources>

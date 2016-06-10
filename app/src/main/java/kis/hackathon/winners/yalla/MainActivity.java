@@ -1,6 +1,7 @@
 package kis.hackathon.winners.yalla;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,8 +22,12 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.maps.model.LatLng;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements TimeReady {
+public class MainActivity extends AppCompatActivity  {
 
     private static final String TAG = "main_activity";
     private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 789;
@@ -30,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements TimeReady {
     private SearchView searchView;
     private String _nameOfContact;
     private String _phoneNumber;
+    private static final String SMS_MINUTES_TEXT ="SMS will be sent %d minutes\n before you arrive" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +52,24 @@ public class MainActivity extends AppCompatActivity implements TimeReady {
 //      SmsSender.getInstance().sendSms(2, "0535246156");
 //        AutoPlaces.populateAutoPlaces(this);
 
-        Log.d(TAG, "before!");
-        try {
-            DirectionsManager.sendRequest(new LatLng(31.750876, 35.223831), new LatLng(29.580795, 34.946855), this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        Log.d(TAG, "before!");
+//        try {
+//            DirectionsManager.sendRequest(new LatLng(31.750876, 35.223831), new LatLng(29.580795, 34.946855), this);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         resultText = (TextView)findViewById(R.id.searchViewResult);
-        setupSearchView();
+//        setupSearchView();
+//        AutoPlaces.populateAutoPlaces(this);
+//       SeekBar seekBar=((SeekBar) findViewById(R.id.sb_ma));
+        //seekBar.getThumb().setColorFilter(getColor(R.color.gray), PorterDuff.Mode.MULTIPLY);
 
+//        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            int seekBarProgress = 0;
+//
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                seekBarProgress = progress;
+//                updateMinutesTranceText(progress);
 
         //https://maps.googleapis.com/maps/api/directions/json?origin=31.750876,%2035.223831&destination=31.774577,%2035.197986&key=AIzaSyBJK_IDdOZOegnfCPCBn4d016TpVWrBz44
     }
@@ -65,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements TimeReady {
         searchView.setSearchableInfo(searchableInfo);
     }
 
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
 //    @Override
 //    public void onRequestPermissionsResult(int requestCode, //String[] permissions, int[] grantResults) {
@@ -87,58 +104,62 @@ public class MainActivity extends AppCompatActivity implements TimeReady {
 //
 //    }
 //
-    @Override
-    public void onTimeReady(int timeUntilArrive) {
-        Log.d(TAG, "time ready!!!" + timeUntilArrive);
-    }
-    @Override
-    protected void onNewIntent(Intent intent) {
-        if (ContactsContract.Intents.SEARCH_SUGGESTION_CLICKED.equals(intent.getAction())) {
-            //handles suggestion clicked query
-            String displayName = getDisplayNameForContact(intent);
-            resultText.setText(displayName);
-        } else if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            // handles a search query
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            resultText.setText("should search for query: '" + query + "'...");
-        }
 
-    }
-    private String getDisplayNameForContact(Intent intent) {
-        Cursor phoneCursor = getContentResolver().query(intent.getData(), null, null, null, null);
-        phoneCursor.moveToFirst();
-        int idDisplayName = phoneCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-        int hasNumber = phoneCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
-        String s = ContactsContract.Contacts.HAS_PHONE_NUMBER;
-//        int idDisplayName = phoneCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-        _nameOfContact = phoneCursor.getString(idDisplayName);
-        _phoneNumber = getPhoneNumber(_nameOfContact);
-        // TODO call SmsSender and use the phone number
-
-
-        phoneCursor.close();
-        return _nameOfContact;
-    }
-    private String getPhoneNumber(String name) {
-        String ret = null;
-        String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " like'" + name + "'";
-        String[] projection = new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER};
-        Cursor c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                projection, selection, null, null);
-        if (c != null) {
-            if (c.moveToFirst()) {
-                ret = c.getString(0);
             }
-            c.close();
-        }
-        if (ret == null) {
-            ret = "Unsaved";
-        }
-        return ret;
+
+    private boolean between(int start, int end, int numb){
+        return start<= numb && numb<end;
     }
 
-    @Override
-    public void onTimeFailure() {
-        Log.d(TAG, "time failure");
-    }
+//
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        if (ContactsContract.Intents.SEARCH_SUGGESTION_CLICKED.equals(intent.getAction())) {
+//            //handles suggestion clicked query
+//            String displayName = getDisplayNameForContact(intent);
+//            resultText.setText(displayName);
+//        } else if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+//            // handles a search query
+//            String query = intent.getStringExtra(SearchManager.QUERY);
+//            resultText.setText("should search for query: '" + query + "'...");
+//        }
+//
+//    }
+//    private String getDisplayNameForContact(Intent intent) {
+//        Cursor phoneCursor = getContentResolver().query(intent.getData(), null, null, null, null);
+//        phoneCursor.moveToFirst();
+//        int idDisplayName = phoneCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+//        int hasNumber = phoneCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
+//        String s = ContactsContract.Contacts.HAS_PHONE_NUMBER;
+////        int idDisplayName = phoneCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+//        _nameOfContact = phoneCursor.getString(idDisplayName);
+//        _phoneNumber = getPhoneNumber(_nameOfContact);
+//        // TODO call SmsSender and use the phone number
+//
+//
+//        phoneCursor.close();
+//        return _nameOfContact;
+//    }
+//    private String getPhoneNumber(String name) {
+//        String ret = null;
+//        String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " like'" + name + "'";
+//        String[] projection = new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER};
+//        Cursor c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+//                projection, selection, null, null);
+//        if (c != null) {
+//            if (c.moveToFirst()) {
+//                ret = c.getString(0);
+//            }
+//            c.close();
+//        }
+//        if (ret == null) {
+//            ret = "Unsaved";
+//        }
+//        return ret;
+//    }
+//
+//    @Override
+//    public void onTimeFailure() {
+//        Log.d(TAG, "time failure");
+//    }
 }

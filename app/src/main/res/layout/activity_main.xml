@@ -11,7 +11,18 @@
         android:layout_height="wrap_content"
         android:hint="@string/choose_person"
         android:id="@+id/actv_contacts"
+        style="@style/TextViewTop"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="64dp"
+        android:lines="1"
         />
+
+    <!--<Space-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="64dp"-->
+        <!--android:id="@+id/space"-->
+        <!--android:layout_below="@+id/actv_contacts"-->
+        <!--/>-->
 
 
     <TextView
@@ -23,8 +34,8 @@
         android:layout_alignRight="@+id/frag_place"
         android:layout_alignLeft="@+id/frag_place"
         android:visibility="visible"
-        android:background="@color/main_bg"
-        android:gravity="center"
+        android:hint="@string/insert_address"
+        style="@style/TextViewTop"
         />
 
     <fragment
@@ -37,18 +48,56 @@
         />
 
     <SeekBar
+        android:id="@+id/sb_ma"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="24dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekbar"
-        android:layout_below="@+id/frag_place"
-        android:visibility="gone"
+        android:layout_height="15dp"
+        android:progressDrawable="@drawable/seekbar_progressbar"
+        android:progress="0"
+        android:thumb="@drawable/thumb"
+        android:max="20"
+        android:splitTrack="false"
+        android:indeterminate="false"
+        android:layout_below="@id/frag_place"
+         />
+
+    <ImageView
+        android:layout_width="@dimen/man_and_woman"
+        android:layout_height="@dimen/man_and_woman"
+        android:background="@drawable/man_icon"
+        android:id="@+id/iv_man"
+        android:layout_below="@+id/sb_ma"
+        android:layout_alignParentLeft="true"
+        />
+
+    <ImageView
+        android:layout_width="@dimen/man_and_woman"
+        android:layout_height="@dimen/man_and_woman"
+        android:background="@drawable/woman_icon"
+        android:id="@+id/iv_woman"
+        android:layout_below="@+id/sb_ma"
+        android:layout_alignTop="@+id/iv_man"
+        android:layout_alignBottom="@+id/iv_man"
+        android:layout_alignParentRight="true"
+        />
+    <TextView
+        android:layout_below="@+id/sb_ma"
+        android:layout_alignTop="@+id/iv_man"
+        android:layout_alignBottom="@+id/iv_man"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:id="@+id/tv_minutes"
+        android:layout_toRightOf="@id/iv_man"
+        android:layout_toLeftOf="@id/iv_woman"
         />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/seekbar"
+        android:layout_below="@+id/tv_minutes"
         android:id="@+id/btn_go"
         android:visibility="gone"
         />

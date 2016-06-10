@@ -9,13 +9,16 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.TwoLineListItem;
@@ -31,9 +34,15 @@ import java.util.List;
 
 public class YallaActivity extends Activity {
     private static final boolean OPEN_SEARCH_VIEW = false;
+    private static final String TAG = "yalla";
     TextView _tvPlace;
+    ImageView _tvMan;
+    ImageView _tvWoman;
+    TextView _tvUpdateMinutes;
+
     View _vFragment, _btnGo;
     AutoCompleteTextView _actvContacts;
+    SeekBar _seek;
 //    SearchView _vSearch;
 
     ArrayList<Contact> _allContacts;
@@ -76,6 +85,9 @@ public class YallaActivity extends Activity {
         _tvPlace = (TextView) findViewById(R.id.tv_place);
         _vFragment = findViewById(R.id.frag_place);
         _vFragment.setAlpha(0f);
+        _tvMan = (ImageView) findViewById(R.id.iv_man);
+        _tvWoman = (ImageView) findViewById(R.id.iv_woman);
+        _tvUpdateMinutes = (TextView) findViewById(R.id.tv_minutes);
         _btnGo = findViewById(R.id.btn_time);
         _actvContacts = (AutoCompleteTextView) findViewById(R.id.actv_contacts);
 
@@ -95,154 +107,40 @@ public class YallaActivity extends Activity {
             }
         });
 
+        _seek = (SeekBar) findViewById(R.id.sb_ma);
+        _seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                updateMinutesTranceText(progress);
+            }
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
     }
 
-    ////////////////////////////////////////// activity 1 /////////////////////////////////
-
-
-
-//    private void setupSearchView() {
-//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        SearchView searchView = (SearchView) findViewById(R.id.sv_person);
-//        SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
-//        assert searchView != null;
-//        searchView.setSearchableInfo(searchableInfo);
-//        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean hasFocus) {
-//                if (hasFocus) {
-//                    showInputMethod(view.findFocus());
-//                }
-//            }
-//        });
-//
-//    }
-//
-//
-//    private void showInputMethod(View view) {
-//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        if (imm != null) {
-//            imm.showSoftInput(view, 0);
-//        }
-//    }
-//
-//    protected void onNewIntent(Intent intent) {
-//        if (ContactsContract.Intents.SEARCH_SUGGESTION_CLICKED.equals(intent.getAction())) {
-//            //handles suggestion clicked query
-//            if (!handlePersonWentOk(intent))
-//                return;
-//            else {
-//                _vSearch.setVisibility(View.INVISIBLE);
-//                _vSearch.setSearchableInfo(null);
-//                _tvPerson.setText(String.format(
-//                        getString(R.string.contact_saved),
-//                        YallaSmsManager.getInstance().get_contactName()
-//                ));
-//                _tvPerson.setVisibility(View.VISIBLE);
-//            }
-//        } else {
-//            super.onNewIntent(intent);
-//        }
-//    }
-//
-//    /**
-//     * returns true on success, false otherwise
-//     * @param intent
-//     * @return
-//     */
-//    private boolean handlePersonWentOk(Intent intent) {
-//        Cursor phoneCursor = getContentResolver().query(intent.getData(), null, null, null, null);
-//        assert phoneCursor != null;
-//        phoneCursor.moveToFirst();
-//        int idDisplayName = phoneCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-//
-//
-//        String s = ContactsContract.Contacts.HAS_PHONE_NUMBER;
-//
-//        String nameOfContact = phoneCursor.getString(idDisplayName);
-//        String phoneNumber = getPhoneNumber(nameOfContact);
-//        if (phoneNumber == null) {
-//            Toast.makeText(this, "No phone for this contact. please choose again", Toast.LENGTH_SHORT).show();
-//            phoneCursor.close();
-//            return false;
-//        } else {
-//            YallaSmsManager.getInstance().set_phoneNumber(phoneNumber);
-//            YallaSmsManager.getInstance().set_contactName(nameOfContact);
-//        }
-//        phoneCursor.close();
-//        return true;
-//    }
-//
-//    @Nullable
-//    private String getPhoneNumber(String name) {
-//        String ret = null;
-//        String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " like'" + name + "'";
-//        String[] projection = new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER};
-//        Cursor c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-//                projection, selection, null, null);
-//        if (c != null) {
-//            if (c.moveToFirst()) {
-//                ret = c.getString(0);
-//            }
-//            c.close();
-//        }
-//        return ret;
-//    }
-
-    ////////////////////////////////////////// activity 2 /////////////////////////////////
-
-
-    private void clearPlace() {
-        _tvPlace.setText(YallaSmsManager.getInstance().get_placeName());
-        _tvPlace.setVisibility(View.VISIBLE);
-        _vFragment.setVisibility(View.INVISIBLE);
+    private void updateMinutesTranceText(int progress) {
+        float womanAlph = progress * 0.05f;
+        float manAlph = 1f - (progress * 0.05f);
+        Log.d(TAG,"manAlph:"+manAlph+ " womanAlph"+womanAlph);
+        _tvMan.setAlpha(manAlph);
+        _tvWoman.setAlpha(womanAlph);
+        _tvUpdateMinutes.setText(
+                String.format(
+                        getString(R.string.sms_minutes_show), progress
+                )
+        );
+        YallaSmsManager.getInstance().set_minutesToArrive(progress);
     }
+
+
+
 
     private class Contact {
-        public String name, phone;
-
-        public Contact(String name, String phone) {
+        String name, phone;
+        Contact(String name, String phone) {
             this.name = name;
             this.phone = phone;
         }
     }
 
-//    private class ContactAdapter extends ArrayAdapter<Contact> {
-//        private List<Contact> _contacts;
-//        /**
-//         * Constructor
-//         *
-//         * @param context  The current context.
-//         * @param resource The resource ID for a layout file containing a TextView to use when
-//         *                 instantiating views.
-//         * @param objects  The objects to represent in the ListView.
-//         */
-//        public ContactAdapter(Context context, int resource, List<Contact> objects) {
-//            super(context, resource, objects);
-//            _contacts = objects;
-//        }
-//
-//        /**
-//         * {@inheritDoc}
-//         *
-//         * @param position
-//         * @param convertView
-//         * @param parent
-//         */
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            TwoLineListItem retval;
-//            Contact currentContact = _contacts.get(position);
-//            if (convertView == null)
-//                retval = (TwoLineListItem) getLayoutInflater().inflate(R.layout.line, parent, false);
-//            else
-//                retval = (TwoLineListItem) convertView;
-//            TextView tvContact, tvPhone;
-//            tvContact = retval.getText1();
-//            tvContact.setText(currentContact.name);
-//            tvPhone = retval.getText2();
-//            tvPhone.setText(currentContact.phone);
-//            return retval;
-//        }
-//    }
 }
