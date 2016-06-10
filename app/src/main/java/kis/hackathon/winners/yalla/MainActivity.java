@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.google.maps.model.LatLng;
 
-public class MainActivity extends AppCompatActivity implements TimeReady {
+public class MainActivity extends AppCompatActivity implements TimeReady implements AddressReady {
 
     private static final String TAG = "main_activity";
     private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 789;
