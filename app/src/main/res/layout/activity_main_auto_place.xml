@@ -29,4 +29,35 @@ android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragmen
         android:layout_centerHorizontal="true"
         android:text="@string/example" />
 
+    <SeekBar
+        android:id="@+id/sb_ma"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_marginBottom="16dp"
+        android:progressDrawable="@drawable/seekbar_progressbar"
+        android:layout_marginTop="100dp"
+        android:progress="0"
+        android:thumb="@drawable/thumb"
+        android:max="100" />
+
+    <ImageView
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:background="@drawable/man_icon"
+        android:id="@+id/imageView"
+        android:layout_below="@+id/sb_ma"
+        android:layout_alignRight="@+id/sb_ma"
+        android:layout_alignEnd="@+id/sb_ma" />
+    <ImageView
+
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:background="@drawable/woman_icon"
+        android:id="@+id/imageView2"
+        android:layout_below="@+id/sb_ma"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+
 </RelativeLayout>

@@ -1,9 +1,11 @@
 package kis.hackathon.winners.yalla;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.Manifest;
 import android.graphics.Point;
 import android.support.annotation.NonNull;
@@ -21,6 +23,9 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.maps.model.LatLng;
+
+import android.view.View;
+import android.widget.SeekBar;
 
 public class MainActivity extends AppCompatActivity implements TimeReady implements AddressReady {
 
@@ -54,7 +59,15 @@ public class MainActivity extends AppCompatActivity implements TimeReady impleme
         }
         resultText = (TextView)findViewById(R.id.searchViewResult);
         setupSearchView();
+        AutoPlaces.populateAutoPlaces(this);
+       SeekBar seekBar=((SeekBar) findViewById(R.id.sb_ma));
+        //seekBar.getThumb().setColorFilter(getColor(R.color.gray), PorterDuff.Mode.MULTIPLY);
 
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int seekBarProgress = 0;
+
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekBarProgress = progress;
 
         //https://maps.googleapis.com/maps/api/directions/json?origin=31.750876,%2035.223831&destination=31.774577,%2035.197986&key=AIzaSyBJK_IDdOZOegnfCPCBn4d016TpVWrBz44
     }
@@ -64,7 +77,10 @@ public class MainActivity extends AppCompatActivity implements TimeReady impleme
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
         searchView.setSearchableInfo(searchableInfo);
     }
+=======
+            }
 
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
 //    @Override
 //    public void onRequestPermissionsResult(int requestCode, //String[] permissions, int[] grantResults) {
@@ -90,6 +106,14 @@ public class MainActivity extends AppCompatActivity implements TimeReady impleme
     @Override
     public void onTimeReady(int timeUntilArrive) {
         Log.d(TAG, "time ready!!!" + timeUntilArrive);
+=======
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+
+
+        });
     }
     @Override
     protected void onNewIntent(Intent intent) {
@@ -115,6 +139,10 @@ public class MainActivity extends AppCompatActivity implements TimeReady impleme
         _phoneNumber = getPhoneNumber(_nameOfContact);
         // TODO call SmsSender and use the phone number
 
+        @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == SmsSender.REQ_PERMISSION_SEND_SMS) {
+            //TODO IF PERMISSION DENIED...
 
         phoneCursor.close();
         return _nameOfContact;
