@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">yalla</string>
-    <string name="sms_minutes_show">alert %d minutes\nbefore arrive</string>
+    <string name="sms_minutes_show">Alert Them %d Minutes\nBefore Arrival</string>
     <string name="sms_minutes">I\'m here in %d minutes!</string>
     <string name="trans_contact">contact_tranition</string>
     <string name="trans_place">contact_tranition</string>
@@ -8,8 +8,11 @@
     <string name="example">Example</string>
     <string name="find_contact">find contact!!</string>
     <string name="sample">This text won\'t be showed</string>
-    <string name="choose_person">choose contact please</string>
-    <string name="contact_saved">Will call %s</string>
-    <string name="close_to_message">When close to %s</string>
-    <string name="insert_address">insert address please</string>
+    <string name="choose_person">Choose Contact Please</string>
+    <string name="contact_saved">Will send SMS to %s</string>
+    <string name="close_to_message">When Close to %s</string>
+    <string name="insert_address">Insert Address Please</string>
+    <string name="go">Go!</string>
+    <string name="choose_a_contact">Please Choose a Contact</string>
+    <string name="choos_dest">Please Choose a Destination</string>
 </resources>

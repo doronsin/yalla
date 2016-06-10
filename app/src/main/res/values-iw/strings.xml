@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">יאללה</string>
+    <string name="sms_minutes_show">עדכן אותם %d דקות\nלפני ההגעה</string>
+    <string name="sms_minutes">אגיע עוד %d דקות!</string>
+    <string name="choose_person">בחר איש קשר</string>
+    <string name="contact_saved">נשלח בשבילך הודעה ל%s</string>
+    <string name="close_to_message">כשתתקרב ל%s</string>
+    <string name="insert_address">הכנס כתובת בבקשה</string>
+    <string name="go">יאללה!</string>
+    <string name="choos_dest">יאללה כבר, תחליט לאן אתה נוסע!</string>
+    <string name="choose_a_contact">יאללה יאללה, בחר איש קשר ובוא נתקדם</string>
+</resources>

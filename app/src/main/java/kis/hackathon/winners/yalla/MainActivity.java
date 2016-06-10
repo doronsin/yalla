@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_auto_place);
+//        setContentView(R.layout.activity_main_auto_place);
         Log.d(TAG, "starting");
 //        if(!SmsSender.getInstance().isAuthorised())
 //          PermissionAsker.askForPermission//(this,Manifest.permission.SEND_SMS,SmsSender.REQ_PERMISSION_SEND_SMS);
@@ -58,11 +58,13 @@ public class MainActivity extends AppCompatActivity  {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        resultText = (TextView)findViewById(R.id.searchViewResult);
+//        resultText = (TextView)findViewById(R.id.searchViewResult);
 //        setupSearchView();
 //        AutoPlaces.populateAutoPlaces(this);
 //       SeekBar seekBar=((SeekBar) findViewById(R.id.sb_ma));
         //seekBar.getThumb().setColorFilter(getColor(R.color.gray), PorterDuff.Mode.MULTIPLY);
+//        seekBar.setProgress(50);
+//        updateMinutesTranceText(seekBar.getProgress());
 
 //        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 //            int seekBarProgress = 0;
@@ -75,9 +77,9 @@ public class MainActivity extends AppCompatActivity  {
     }
     private void setupSearchView() {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) findViewById(R.id.searchView);
-        SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
-        searchView.setSearchableInfo(searchableInfo);
+//        searchView = (SearchView) findViewById(R.id.searchView);
+//        SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+//        searchView.setSearchableInfo(searchableInfo);
     }
 
 
@@ -106,10 +108,71 @@ public class MainActivity extends AppCompatActivity  {
 //
 
             }
-
-    private boolean between(int start, int end, int numb){
-        return start<= numb && numb<end;
-    }
+//
+//        });
+//        SetIconesListener();
+//    }
+//
+//    private void SetIconesListener() {
+//        ImageView man = (ImageView) findViewById(R.id.iv_man);
+//        ImageView woman = (ImageView) findViewById(R.id.iv_woman);
+//        man.setOnClickListener(new View.OnClickListener(){
+//            public void onClick(View v) {
+//                iconClickedIsMan(true);
+//            }
+//        });
+//        woman.setOnClickListener(new View.OnClickListener(){
+//            public void onClick(View v) {
+//                iconClickedIsMan(false);
+//            }
+//        });
+//    }
+//
+//    private void iconClickedIsMan(boolean b) {
+//        SeekBar seekBar=((SeekBar) findViewById(R.id.sb_ma));
+//        int additon = b?-5:5;
+//        seekBar.setProgress(Math.min(seekBar.getProgress()+ additon,100));
+//
+//    }
+//
+//    private void updateMinutesTranceText(int progress) {
+//        ImageView man = (ImageView) findViewById(R.id.iv_man);
+//        ImageView woman = (ImageView) findViewById(R.id.iv_woman);
+//        TextView textView= (TextView) findViewById(R.id.tv_minutes);
+//        float womanAlph = Math.min(1,(float)(progress+50)/100);
+//        float manAlph = Math.min(1, (float)1-(float)progress/100+(float)0.5);
+//        Log.d(TAG,"manAlph:"+manAlph+ " womanAlph"+womanAlph);
+//        man.setAlpha(manAlph);
+//        woman.setAlpha(womanAlph);
+//        if (between(0,20,progress)){
+//            textView.setText("SMS will be sent 2 minutes\n before you arrive");
+//            return;
+//        }
+//        if (between(20,40,progress)){
+//            textView.setText(String.format(SMS_MINUTES_TEXT,2));
+//
+//
+//            return;
+//        }
+//        if (between(40,60,progress)){
+//            textView.setText(String.format(SMS_MINUTES_TEXT,4));
+//            return;
+//        }
+//        if (between(60,80,progress)){
+//
+//            textView.setText(String.format(SMS_MINUTES_TEXT,6));
+//            return;
+//        }
+//        if (between(80,100,progress)){
+//
+//            textView.setText(String.format(SMS_MINUTES_TEXT,8));
+//            return;
+//        }
+//    }
+//
+//    private boolean between(int start, int end, int numb){
+//        return start<= numb && numb<end;
+//    }
 
 //
 //    @Override

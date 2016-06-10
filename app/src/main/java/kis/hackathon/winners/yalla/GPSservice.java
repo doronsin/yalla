@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -28,9 +29,9 @@ public class GPSservice extends IntentService implements
 
     private static final String TAG ="GPSservice";
     private static final long INTERVAL_TIME_MS = 10000;
-    private static final float TWENTY_METERS = 0;
+    private static final float ACCURACY_METERS = 50;
 
-    GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient;
 
 
     public GPSservice() {
@@ -83,8 +84,8 @@ public class GPSservice extends IntentService implements
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d(TAG,location.getLongitude()+"---"+location.getLatitude());
-        if (location.hasAccuracy() && location.getAccuracy() <= TWENTY_METERS) {
+        Log.d(TAG,location.getLongitude()+"---"+location.getLatitude()+"    accuracy:"+location.getAccuracy());
+        if (location.hasAccuracy() && location.getAccuracy() <= ACCURACY_METERS) {
             // found a good location
             onGoodLocationFound(location);
 
@@ -92,24 +93,29 @@ public class GPSservice extends IntentService implements
     }
 
     private void onGoodLocationFound(Location location) {
+        Log.d(TAG, "onGoodLocationFound");
         disconnectLocations();
         try {
             DirectionsManager.sendRequest(
                     new LatLng(location.getLatitude(), location.getLongitude()),
                     YallaSmsManager.getInstance().get_dest(),
                     this
-            );
+            ); // will be sent and then passed to "onTimeReady" or "onTimeFailure"
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void disconnectLocations() {
+        Log.d(TAG, "disconnectLocations");
+
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         mGoogleApiClient.disconnect();
     }
 
     public void killMyself() {
+        Log.d(TAG, "killMyself");
+
         try {
             disconnectLocations();
         } catch (Exception ignore) {}
@@ -118,18 +124,23 @@ public class GPSservice extends IntentService implements
 
     @Override
     public void onTimeFailure() {
+        Log.d(TAG, "onTimeFailure");
 
     }
 
     @Override
     public void onTimeReady(int timeUntilArrive) {
         int minutesToSleep = timeUntilArrive - YallaSmsManager.getInstance().get_minutesToArrive();
+        Log.d(TAG, "onTimeReady, time until arrive: "+timeUntilArrive);
         if (minutesToSleep <= 0) {
             YallaSmsManager.getInstance().sendSms();
+            Log.d(TAG, "sms sent!");
             killMyself();
         } else {
             try {
+                Log.d(TAG, "sleeping for "+minutesToSleep+" minutes. time now is "+ SystemClock.currentThreadTimeMillis());
                 Thread.sleep(minutesToSleep * 60 * 1000);
+                Log.d(TAG, "time now is "+ SystemClock.currentThreadTimeMillis());
                 mGoogleApiClient.connect();
             } catch (InterruptedException e) {
                 e.printStackTrace();

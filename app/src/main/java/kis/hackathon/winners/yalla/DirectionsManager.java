@@ -27,7 +27,7 @@ public class DirectionsManager {
 
     public static void sendRequest(final LatLng origin, final LatLng dest, final TimeReady caller) throws Exception {
         DirectionsApiRequest req = getDirections(origin, dest, caller);
-        req.await();
+//        req.await();
     }
     private static DirectionsApiRequest getDirections(LatLng origin, LatLng destination, final TimeReady caller) {
         Log.d(TAG, "lkasdjflkaszjdlkfjaslkdfjlasdf");

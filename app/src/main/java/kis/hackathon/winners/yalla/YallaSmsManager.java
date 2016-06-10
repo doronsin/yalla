@@ -2,6 +2,7 @@ package kis.hackathon.winners.yalla;
 
 import android.app.PendingIntent;
 import android.telephony.SmsManager;
+import android.widget.Toast;
 
 import com.google.maps.model.LatLng;
 
@@ -89,4 +90,11 @@ public class YallaSmsManager {
                 && _dest != null;
     }
 
+    public String whyNotReady() {
+        if (_phoneNumber == null ||_phoneNumber.length() > 0)
+            return _app.getString(R.string.choose_a_contact);
+        else {
+            return _app.getString(R.string.choos_dest);
+        }
+    }
 }

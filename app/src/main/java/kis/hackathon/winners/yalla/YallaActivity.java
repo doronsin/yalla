@@ -35,6 +35,7 @@ import java.util.List;
 public class YallaActivity extends Activity {
     private static final boolean OPEN_SEARCH_VIEW = false;
     private static final String TAG = "yalla";
+    private static final double MIN_ALPHA_FOR_VIEWS = 0.3f;
     TextView _tvPlace;
     ImageView _tvMan;
     ImageView _tvWoman;
@@ -81,16 +82,28 @@ public class YallaActivity extends Activity {
     }
 
     private void initViews() {
-        // TODO also the seekbar
         _tvPlace = (TextView) findViewById(R.id.tv_place);
         _vFragment = findViewById(R.id.frag_place);
         _vFragment.setAlpha(0f);
         _tvMan = (ImageView) findViewById(R.id.iv_man);
         _tvWoman = (ImageView) findViewById(R.id.iv_woman);
         _tvUpdateMinutes = (TextView) findViewById(R.id.tv_minutes);
-        _btnGo = findViewById(R.id.btn_time);
+        _btnGo = findViewById(R.id.btn_go);
+        _btnGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "creaetd");
+                YallaSmsManager manager = YallaSmsManager.getInstance();
+                if (manager.isReady()) {
+                    startService(new Intent(YallaActivity.this, GPSservice.class));
+                    Toast.makeText(YallaActivity.this, "SMS will be sent on time.", Toast.LENGTH_LONG).show();
+                    finish();
+                } else {
+                    Toast.makeText(YallaActivity.this, manager.whyNotReady(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         _actvContacts = (AutoCompleteTextView) findViewById(R.id.actv_contacts);
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, _allContactNames);
         _actvContacts.setAdapter(adapter);
@@ -104,10 +117,13 @@ public class YallaActivity extends Activity {
                         relevant = c;
                 assert relevant != null;
                 YallaSmsManager.getInstance().set_phoneNumber(relevant.phone);
+                Log.d(TAG, "phone number changed");
             }
         });
 
         _seek = (SeekBar) findViewById(R.id.sb_ma);
+        _seek.setProgress(10);
+        updateMinutesTranceText(10);
         _seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 updateMinutesTranceText(progress);
@@ -115,15 +131,30 @@ public class YallaActivity extends Activity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+        _tvMan.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                iconClickedIsMan(true);
+            }
+        });
+        _tvWoman.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                iconClickedIsMan(false);
+            }
+        });
+    }
 
+    private void iconClickedIsMan(boolean b) {
+        int additon = b?-1:1;
+        _seek.setProgress(Math.max(0, Math.min(_seek.getProgress()+ additon,20)));
     }
 
     private void updateMinutesTranceText(int progress) {
-        float womanAlph = progress * 0.05f;
-        float manAlph = 1f - (progress * 0.05f);
-        Log.d(TAG,"manAlph:"+manAlph+ " womanAlph"+womanAlph);
-        _tvMan.setAlpha(manAlph);
-        _tvWoman.setAlpha(womanAlph);
+        progress+=1;
+        float womanAlpha =   (float) Math.max(progress * 0.05f, MIN_ALPHA_FOR_VIEWS);
+        float manAlpha =     (float) Math.max(1f - (progress * 0.05f), MIN_ALPHA_FOR_VIEWS);
+        Log.d(TAG,"manAlpha:"+manAlpha+ " womanAlpha"+womanAlpha);
+        _tvMan.setAlpha(manAlpha);
+        _tvWoman.setAlpha(womanAlpha);
         _tvUpdateMinutes.setText(
                 String.format(
                         getString(R.string.sms_minutes_show), progress
@@ -135,7 +166,8 @@ public class YallaActivity extends Activity {
 
 
 
-    private class Contact {
+
+private class Contact {
         String name, phone;
         Contact(String name, String phone) {
             this.name = name;
