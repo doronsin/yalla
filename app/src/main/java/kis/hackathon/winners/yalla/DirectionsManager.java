@@ -16,7 +16,7 @@ import com.google.maps.model.LatLng;
 
 /**
  *
- * This class is used to find the time it takes to get from origin to destination
+ * This class is used to find the minutes it takes to get from origin to destination
  */
 public class DirectionsManager {
     private static final String TAG = DirectionsManager.class.getSimpleName();

@@ -131,7 +131,7 @@ public class GPSservice extends IntentService implements
     @Override
     public void onTimeReady(int timeUntilArrive) {
         int minutesToSleep = timeUntilArrive - YallaSmsManager.getInstance().get_minutesToArrive();
-        Log.d(TAG, "onTimeReady, time until arrive: "+timeUntilArrive);
+        Log.d(TAG, "onTimeReady, minutes until arrive: "+timeUntilArrive);
         if (minutesToSleep <= 0) {
             YallaSmsManager.getInstance().set_minutesToArrive(timeUntilArrive);
             YallaSmsManager.getInstance().sendSms();
@@ -139,9 +139,9 @@ public class GPSservice extends IntentService implements
             killMyself();
         } else {
             try {
-                Log.d(TAG, "sleeping for "+minutesToSleep+" minutes. time now is "+ SystemClock.currentThreadTimeMillis());
+                Log.d(TAG, "sleeping for "+minutesToSleep+" minutes. minutes now is "+ SystemClock.currentThreadTimeMillis());
                 Thread.sleep(minutesToSleep * 60 * 1000);
-                Log.d(TAG, "time now is "+ SystemClock.currentThreadTimeMillis());
+                Log.d(TAG, "minutes now is "+ SystemClock.currentThreadTimeMillis());
                 mGoogleApiClient.connect();
             } catch (InterruptedException e) {
                 e.printStackTrace();

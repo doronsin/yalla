@@ -30,8 +30,8 @@ public class YallaActivity extends AppCompatActivity {
     private static final String TAG = "yalla";
     private static final double MIN_ALPHA_FOR_VIEWS = 0.3f;
     TextView _tvPlace;
-    ImageView _tvMan;
-    ImageView _tvWoman;
+    ImageView _ivMan;
+    ImageView _ivWoman;
     TextView _tvUpdateMinutes;
 
     View _vFragment, _btnGo;
@@ -79,8 +79,8 @@ public class YallaActivity extends AppCompatActivity {
         _tvPlace = (TextView) findViewById(R.id.tv_place);
         _vFragment = findViewById(R.id.frag_place);
         _vFragment.setAlpha(0f);
-        _tvMan = (ImageView) findViewById(R.id.iv_man);
-        _tvWoman = (ImageView) findViewById(R.id.iv_woman);
+        _ivMan = (ImageView) findViewById(R.id.iv_man);
+        _ivWoman = (ImageView) findViewById(R.id.iv_woman);
         _tvUpdateMinutes = (TextView) findViewById(R.id.tv_minutes);
         _btnGo = findViewById(R.id.btn_go);
         _btnGo.setOnClickListener(new View.OnClickListener() {
@@ -89,8 +89,28 @@ public class YallaActivity extends AppCompatActivity {
                 Log.d(TAG, "creaetd");
                 YallaSmsManager manager = YallaSmsManager.getInstance();
                 if (manager.isReady()) {
+                    // update database if needed
+                    MyDataBase db = new MyDataBase(YallaActivity.this);
+                    TableItem item = db.getItem(YallaSmsManager.getInstance().get_phoneNumber());
+                    if (item != null) { // update
+                        item.addressLatLng = manager.get_dest();
+                        item.address = manager.get_placeName();
+                        item.minutes = manager.get_minutesToArrive();
+                        db.update(item);
+                    } else { // insert
+                        item = new TableItem(
+                                manager.get_phoneNumber(),
+                                manager.get_placeName(),
+                                manager.get_minutesToArrive(),
+                                manager.get_dest().lat,
+                                manager.get_dest().lng
+                        );
+                        db.insert(item);
+                    }
+
+
                     startService(new Intent(YallaActivity.this, GPSservice.class));
-                    Toast.makeText(YallaActivity.this, "SMS will be sent on time.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(YallaActivity.this, "SMS will be sent on minutes.", Toast.LENGTH_LONG).show();
                     finish();
                 } else {
                     Toast.makeText(YallaActivity.this, manager.whyNotReady(), Toast.LENGTH_SHORT).show();
@@ -112,6 +132,25 @@ public class YallaActivity extends AppCompatActivity {
                 assert relevant != null;
 
                 YallaSmsManager.getInstance().set_phoneNumber(relevant.phone);
+
+                MyDataBase db = new MyDataBase(YallaActivity.this);
+                TableItem value = db.getItem(relevant.phone);
+                if (value != null) {
+                    // change address, change address on screen, change minutes, change minutes on screen
+                    YallaSmsManager.getInstance().set_dest(value.addressLatLng);
+                    YallaSmsManager.getInstance().set_minutesToArrive(value.minutes);
+                    _tvPlace.setText(
+                            String.format(getString(R.string.close_to_message), value.address)
+                            );
+                    _tvUpdateMinutes.setText(
+                            String.format(
+                                    getString(R.string.sms_minutes_show), value.minutes
+                            )
+                    );
+                    _seek.setProgress(value.minutes);
+                }
+
+
                 Log.d(TAG, "phone number changed");
             }
         });
@@ -126,12 +165,12 @@ public class YallaActivity extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-        _tvMan.setOnClickListener(new View.OnClickListener(){
+        _ivMan.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 iconClickedIsMan(true);
             }
         });
-        _tvWoman.setOnClickListener(new View.OnClickListener(){
+        _ivWoman.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 iconClickedIsMan(false);
             }
@@ -148,8 +187,8 @@ public class YallaActivity extends AppCompatActivity {
         float womanAlpha =   (float) Math.max(progress * 0.05f, MIN_ALPHA_FOR_VIEWS);
         float manAlpha =     (float) Math.max(1f - (progress * 0.05f), MIN_ALPHA_FOR_VIEWS);
         Log.d(TAG,"manAlpha:"+manAlpha+ " womanAlpha"+womanAlpha);
-        _tvMan.setAlpha(manAlpha);
-        _tvWoman.setAlpha(womanAlpha);
+        _ivMan.setAlpha(manAlpha);
+        _ivWoman.setAlpha(womanAlpha);
         _tvUpdateMinutes.setText(
                 String.format(
                         getString(R.string.sms_minutes_show), progress
