@@ -23,10 +23,11 @@ public class YallaSmsManager {
 
     private YallaApp _app;
     @Getter @Setter private String _phoneNumber = null;
+    @Getter @Setter private String _contactName = null;
     @Getter @Setter private int _minutesToArrive = -1;
     @Getter @Setter private LatLng _dest = null;
     @Getter @Setter private String _destName = null;
-    @Getter @Setter private String _msgToSend;
+    @Getter @Setter private String _msgToSend = null;
 
 
 

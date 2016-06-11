@@ -60,7 +60,7 @@ public class YallaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //noinspection ConstantConditions
         findViewById(R.id.frag_place).setAlpha(0f);
-        if(PermissionAsker.isAuthorisedAskPermissionIfNot(this)) {
+        if(PermissionAsker.isAuthorised_AskPermissionAsyncIfNot(this)) {
             startEverything();
         }
 
@@ -70,11 +70,28 @@ public class YallaActivity extends AppCompatActivity {
         populateContacts();
         initViews();
         AutoPlaces.populateAutoPlaces(this, R.id.frag_place, _tvPlace);
+        populateFromManagerIfNeeded();
+    }
+
+    private void populateFromManagerIfNeeded() {
+        YallaSmsManager manager = YallaSmsManager.getInstance();
+        if (manager.get_contactName() != null) {
+            _actvContacts.setText(manager.get_contactName());
+        }
+        if (manager.get_minutesToArrive() != -1) {
+            _seek.setProgress(manager.get_minutesToArrive());
+        }
+        if (manager.get_destName() != null) {
+            _tvPlace.setText(manager.get_destName());
+        }
+        if (manager.get_msgToSend() != null) {
+            _edtMsg.setText(manager.get_msgToSend());
+        }
     }
 
     private void populateContacts() {
-        _allContactNames = new String[0];
-        if(1==1)return;
+//        _allContactNames = new String[0];
+//        if(1==1)return;
         ArrayList<Contact> allContacts = new ArrayList<>();
         Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
         if (phones == null) {
@@ -161,7 +178,9 @@ public class YallaActivity extends AppCompatActivity {
                 Contact relevant = _allContactsMap.get(current);
                 assert relevant != null;
 
+                YallaSmsManager.getInstance().set_contactName(current);
                 YallaSmsManager.getInstance().set_phoneNumber(relevant.phone);
+
 
                 // hide the keyboard and set focus to the whole screen (remove the blinking | )
                 _rlMain.requestFocus();
@@ -238,7 +257,7 @@ public class YallaActivity extends AppCompatActivity {
                             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    PermissionAsker.isAuthorisedAskPermissionIfNot(YallaActivity.this);
+                                    PermissionAsker.isAuthorised_AskPermissionAsyncIfNot(YallaActivity.this);
                                 }
                             })
                             .show();
@@ -269,7 +288,7 @@ public class YallaActivity extends AppCompatActivity {
         boolean _stillTouching = false;
         boolean _alreadySentPostDelayed = false;
         static final int TIME_BETWEEN_LONGTOUCH_UPDATES_MS = 100;
-        static final int TIME_UNTIL_IT_COUNTS_AS_LONGTOUCH = 500;
+        static final int TIME_FOR_LONGTOUCH_MS = 500;
 
         ManWomanListener(boolean isMan) {
             _isMan = isMan;
@@ -300,19 +319,15 @@ public class YallaActivity extends AppCompatActivity {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     iconClickedOnImages(_isMan);
+                    _handler.postDelayed(_runner, TIME_FOR_LONGTOUCH_MS);
                     _stillTouching = true;
                     return true;
                 case MotionEvent.ACTION_HOVER_EXIT:
-                    _stillTouching = false;
-                    return true;
                 case MotionEvent.ACTION_UP:
                     _stillTouching = false;
                     return true;
                 default:
-                    if (_alreadySentPostDelayed) return false;
-                    if (event.getEventTime()-event.getDownTime() < TIME_UNTIL_IT_COUNTS_AS_LONGTOUCH) return false;
-                    _handler.post(_runner);
-                    return true;
+                    return false;
             }
         }
     }

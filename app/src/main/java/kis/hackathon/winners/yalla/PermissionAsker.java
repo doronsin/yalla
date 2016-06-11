@@ -15,6 +15,8 @@ import java.util.List;
 
 /**
  * Created by odelya_krief on 09-Jun-16.
+ *
+ * used to check the permissions and ask for them if needed
  */
 public class PermissionAsker {
     public static final int REQUEST_ASK_PERMISSIONS = 12345;
@@ -25,18 +27,19 @@ public class PermissionAsker {
      * @param activity
      * @return if authorised, return true. else - return false
      */
-    public static boolean isAuthorisedAskPermissionIfNot(AppCompatActivity activity)
+    public static boolean isAuthorised_AskPermissionAsyncIfNot(AppCompatActivity activity)
     {
         List<String> allPermissions = Arrays.asList(
                 Manifest.permission.SEND_SMS,
                 Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.WRITE_CONTACTS,
+                Manifest.permission.READ_CONTACTS,
                 Manifest.permission.INTERNET);
         ArrayList<String> neededPermissions = new ArrayList<>();
         for (String permission : allPermissions) {
             int res = ContextCompat.checkSelfPermission(activity, permission);
             if(res != PackageManager.PERMISSION_GRANTED) {
-
                 neededPermissions.add(permission);
             }
         }
