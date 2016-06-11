@@ -36,23 +36,20 @@ import java.util.Map;
  */
 
 public class YallaActivity extends AppCompatActivity {
-    private static final boolean OPEN_SEARCH_VIEW = false;
-    private static final String TAG = "yalla";
     private static final double MIN_ALPHA_FOR_VIEWS = 0.3f;
-    TextView _tvPlace;
-    ImageView _ivMan;
-    ImageView _ivWoman;
-    TextView _tvUpdateMinutes;
-    RelativeLayout _rlMain;
-    EditText _edtMsg;
-    View _btnGo;
-    View _vFragment;
-    AutoCompleteTextView _actvContacts;
-    SeekBar _seek;
-//    SearchView _vSearch;
+    private TextView _tvPlace;
+    private ImageView _ivMan;
+    private ImageView _ivWoman;
+    private TextView _tvUpdateMinutes;
+    private RelativeLayout _rlMain;
+    private EditText _edtMsg;
+    @SuppressWarnings("FieldCanBeLocal")
+    private View _btnGo;
+    private AutoCompleteTextView _actvContacts;
+    private SeekBar _seek;
 
     private String[] _allContactNames;
-    Map<String, Contact> _allContactsMap; // map from _allContactNames to the contacts
+    private Map<String, Contact> _allContactsMap; // map from _allContactNames to the contacts
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +66,7 @@ public class YallaActivity extends AppCompatActivity {
     private void startEverything() {
         populateContacts();
         initViews();
-        AutoPlaces.populateAutoPlaces(this, R.id.frag_place, _tvPlace);
+        AutoPlaces.populateAutoPlaces(this, _tvPlace);
         populateFromManagerIfNeeded();
     }
 
@@ -126,7 +123,6 @@ public class YallaActivity extends AppCompatActivity {
     private void initViews() {
         _rlMain = (RelativeLayout) findViewById(R.id.relative_layout);
         _tvPlace = (TextView) findViewById(R.id.tv_place);
-        _vFragment = findViewById(R.id.frag_place);
         _ivMan = (ImageView) findViewById(R.id.iv_man);
         _ivWoman = (ImageView) findViewById(R.id.iv_woman);
         _tvUpdateMinutes = (TextView) findViewById(R.id.tv_minutes);
@@ -214,16 +210,15 @@ public class YallaActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
-        boolean isMan = true;
-        ManWomanListener manListener = new ManWomanListener(isMan);
+        ManWomanListener manListener = new ManWomanListener(true);
         _ivMan.setOnTouchListener(manListener);
-        ManWomanListener womanListener = new ManWomanListener(!isMan);
+        ManWomanListener womanListener = new ManWomanListener(false);
         _ivWoman.setOnTouchListener(womanListener);
     }
 
     private void iconClickedOnImages(boolean isMan) {
-        int additon = isMan?-1:1;
-        _seek.setProgress(Math.max(0, Math.min(_seek.getMax(), _seek.getProgress()+ additon)));
+        int addition = isMan?-1:1;
+        _seek.setProgress(Math.max(0, Math.min(_seek.getMax(), _seek.getProgress()+ addition)));
     }
 
     private void updateMinutesTranceText(int progress) {
@@ -274,7 +269,8 @@ public class YallaActivity extends AppCompatActivity {
     }
 
     private class Contact {
-        String name, phone;
+        final String name;
+        final String phone;
         Contact(String name, String phone) {
             this.name = name;
             this.phone = phone;
@@ -286,7 +282,6 @@ public class YallaActivity extends AppCompatActivity {
         final Handler _handler;
         final Runnable _runner;
         boolean _stillTouching = false;
-        boolean _alreadySentPostDelayed = false;
         static final int TIME_BETWEEN_LONGTOUCH_UPDATES_MS = 100;
         static final int TIME_FOR_LONGTOUCH_MS = 500;
 

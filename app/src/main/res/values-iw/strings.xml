@@ -3,17 +3,18 @@
     <string name="sms_minutes_show">עדכן אותם\n%d דקות\nלפני ההגעה</string>
     <string name="sms_minutes">אגיע עוד %%% דקות!</string>
     <string name="choose_person">בחר איש קשר</string>
-    <string name="contact_saved">נשלח בשבילך הודעה ל%s</string>
     <string name="close_to_message">כשתתקרב ל%s</string>
     <string name="insert_address">הכנס כתובת</string>
     <string name="go">יאללה!</string>
-    <string name="choos_dest">יאללה כבר, תחליט לאן אתה נוסע!</string>
+    <string name="choose_dest">יאללה כבר, תחליט לאן אתה נוסע!</string>
     <string name="choose_a_contact">יאללה יאללה, בחר איש קשר ובוא נתקדם</string>
-    <string name="try_again_permissions">אין לנו באמת מה לעשות כאן אם לא תאשרו לנו לבדוק את מצב הנסיעה באינטרנט ועם ג\\\'י.פי.אס, אם לא תאשרו לנו לבדוק למי לשלוח אסמס ואם לא תאשרו לנו אשכרה לשלוח את האסמס הזה... \n\n בואו ננסה שוב, סבבה? ;)</string>
+    <string name="try_again_permissions">אין לנו באמת מה לעשות כאן אם לא תאשרו לנו לבדוק את מצב הנסיעה באינטרנט ועם ג\\\'י.פי.אס, אם לא תאשרו לנו לבדוק למי לשלוח אסמס ואם לא תאשרו לנו אשכרה לשלוח את האסמס הזה. \n\n בואו ננסה שוב, סבבה? ;)</string>
     <string name="sms_will_be_sent">הודעת SMS תישלח בזמן.</string>
     <string name="custom_message_instructions">ההודעה שתישלח.\nכשנשלח את ההודעה נחליף את %%% במספר האמיתי</string>
     <string name="choose_msg_to_send">בהודעה צריך להיות תו אחד לפחות</string>
     <string name="request_permissions_title">אנחנו צריכים את האישור שלך!</string>
     <string name="insert_message_here">מה תוכן ההודעה?</string>
+    <string name="cd_iconman">אייקון של גבר</string>
+    <string name="cd_iconwoman">אייקון של אישה</string>
 
 </resources>

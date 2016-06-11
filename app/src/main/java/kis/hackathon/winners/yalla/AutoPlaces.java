@@ -15,14 +15,14 @@ import com.google.maps.model.LatLng;
  *
  * handles the "place" fragment
  */
-public class AutoPlaces {
+class AutoPlaces {
 
 
     private static final String TAG ="AutoPlaces" ;
-    public static void  populateAutoPlaces(final Activity activity, final int fragment_id, final TextView replacement){
+    static void  populateAutoPlaces(final Activity activity, final TextView replacement){
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-                activity.getFragmentManager().findFragmentById(fragment_id);
+                activity.getFragmentManager().findFragmentById(R.id.frag_place);
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -39,7 +39,7 @@ public class AutoPlaces {
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
+                // TODO: Handle the error. probably internet connection
                 Log.d(TAG, "An error occurred with google autocomplete frame: " + status.getStatusMessage());
             }
         });

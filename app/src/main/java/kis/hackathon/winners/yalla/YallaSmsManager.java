@@ -13,15 +13,15 @@ import lombok.Setter;
  * Singleton
  * In charge of sending the sms messages.
  */
-public class YallaSmsManager {
+class YallaSmsManager {
     private static final String SAVED_WORD_REGEX = "%%%";
     private static YallaSmsManager instance;
-    private static PendingIntent smsSentIntent = null;
-    private static PendingIntent smsDeliveredIntent = null;
+    private static final PendingIntent smsSentIntent = null;
+    private static final PendingIntent smsDeliveredIntent = null;
 
 
 
-    private YallaApp _app;
+    private final YallaApp _app;
     @Getter @Setter private String _phoneNumber = null;
     @Getter @Setter private String _contactName = null;
     @Getter @Setter private int _minutesToArrive = -1;
@@ -62,11 +62,11 @@ public class YallaSmsManager {
     }
 
     String whyNotReady() {
-        if (_phoneNumber == null ||_phoneNumber.length() > 0)
+        if (_phoneNumber == null ||_phoneNumber.length() == 0)
             return _app.getString(R.string.choose_a_contact);
         else if (_dest == null)
         {
-            return _app.getString(R.string.choos_dest);
+            return _app.getString(R.string.choose_dest);
         } else { // must be a problem in the message
             return _app.getString(R.string.choose_msg_to_send);
         }

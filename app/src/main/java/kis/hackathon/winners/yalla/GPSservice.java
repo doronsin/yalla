@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -59,14 +60,14 @@ public class GPSservice extends IntentService implements
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.d(TAG, "onConnceted");
+        Log.d(TAG, "onConnected");
         LocationRequest req = LocationRequest.create();
         req.setInterval(INTERVAL_TIME_MS);
         req.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         req.setFastestInterval(INTERVAL_TIME_MS);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "no permission to request API location");
-            // TODO ONEDAY next time user uses the app, tell him about this
+            // ONEDAY next time user uses the app, tell him about this
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, req, this);
@@ -83,7 +84,7 @@ public class GPSservice extends IntentService implements
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG,"failed");
     }
 
@@ -100,15 +101,12 @@ public class GPSservice extends IntentService implements
     private void onGoodLocationFound(Location location) {
         Log.d(TAG, "onGoodLocationFound");
         disconnectLocations();
-        try {
-            DirectionsManager.sendRequest(
-                    new LatLng(location.getLatitude(), location.getLongitude()),
-                    YallaSmsManager.getInstance().get_dest(),
-                    this
-            ); // will be sent and then passed to "onTimeReady" or "onTimeFailure"
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        DirectionsManager.sendRequest(
+                new LatLng(location.getLatitude(), location.getLongitude()),
+                YallaSmsManager.getInstance().get_dest(),
+                this
+        ); // will be sent and then passed to "onTimeReady"
+
     }
 
     private void disconnectLocations() {
@@ -118,19 +116,13 @@ public class GPSservice extends IntentService implements
         mGoogleApiClient.disconnect();
     }
 
-    public void killMyself() {
+    private void killMyself() {
         Log.d(TAG, "killMyself");
 
         try {
             disconnectLocations();
         } catch (Exception ignore) {}
         stopSelf();
-    }
-
-    @Override
-    public void onTimeFailure() {
-        Log.d(TAG, "onTimeFailure");
-
     }
 
     @Override

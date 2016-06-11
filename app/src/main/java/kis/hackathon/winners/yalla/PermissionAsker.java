@@ -1,10 +1,7 @@
 package kis.hackathon.winners.yalla;
 
-import android.*;
-import android.app.Activity;
-import android.app.Application;
+import android.Manifest;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,16 +15,16 @@ import java.util.List;
  *
  * used to check the permissions and ask for them if needed
  */
-public class PermissionAsker {
-    public static final int REQUEST_ASK_PERMISSIONS = 12345;
+class PermissionAsker {
+    static final int REQUEST_ASK_PERMISSIONS = 12345;
 
 
     /**
      *
-     * @param activity
+     * @param activity the activity to handle the callback
      * @return if authorised, return true. else - return false
      */
-    public static boolean isAuthorised_AskPermissionAsyncIfNot(AppCompatActivity activity)
+    static boolean isAuthorised_AskPermissionAsyncIfNot(AppCompatActivity activity)
     {
         List<String> allPermissions = Arrays.asList(
                 Manifest.permission.SEND_SMS,

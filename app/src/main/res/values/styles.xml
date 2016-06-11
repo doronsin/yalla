@@ -8,9 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="YallaActivity">
-        <item name="android:background">@color/main_bg</item>
-    </style>
 
     <style name="TextViewTop">
         <item name="android:background">@drawable/textbox</item>

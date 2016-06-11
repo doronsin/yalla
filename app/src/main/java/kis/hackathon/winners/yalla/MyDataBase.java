@@ -12,8 +12,10 @@ import com.google.maps.model.LatLng;
 
 /**
  * Created by odelya_krief on 09-Jun-16.
+ *
+ * DB
  */
-public class MyDataBase extends SQLiteOpenHelper {
+class MyDataBase extends SQLiteOpenHelper {
     private static final String TAG ="myDataBase" ;
 
     private static final String TABLE_NAME = "main_table" ;
@@ -91,12 +93,11 @@ public class MyDataBase extends SQLiteOpenHelper {
     }
 //    public void delete(TableItem tableItem)
 //    {
-//        //TODO in the future if we  ever want to delete
+//        //ONEDAY in the future if we  ever want to delete
 //    }
     @Nullable
     TableItem getItem(String phone)
     {
-        String sql="select * from "+TABLE_NAME+" where "+ KEY_PHONE +"="+phone;
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor=db.query(TABLE_NAME,new String[]{
                         KEY_PHONE,

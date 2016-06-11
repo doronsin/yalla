@@ -12,6 +12,5 @@ public class YallaApp extends Application {
     public void onCreate() {
         super.onCreate();
         YallaSmsManager.init(this);
-
     }
 }

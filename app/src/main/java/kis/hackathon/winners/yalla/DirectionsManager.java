@@ -1,11 +1,5 @@
 package kis.hackathon.winners.yalla;
-import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.support.v4.app.ActivityCompat;
-import android.util.Log;
+
 
 import com.google.maps.DirectionsApi;
 import com.google.maps.DirectionsApiRequest;
@@ -18,19 +12,16 @@ import com.google.maps.model.LatLng;
  *
  * This class is used to find the minutes it takes to get from origin to destination
  */
-public class DirectionsManager {
-    private static final String TAG = DirectionsManager.class.getSimpleName();
-    public static final String SERVER_URL = "https://maps.googleapis.com/maps/api/directions/json?origin=";
+class DirectionsManager {
     private static final String GOOGLE_KEY = "AIzaSyBJK_IDdOZOegnfCPCBn4d016TpVWrBz44";
-    public static final int PERMISSION_INTERNET = 3;
 
 
-    public static void sendRequest(final LatLng origin, final LatLng dest, final TimeReady caller) throws Exception {
-        DirectionsApiRequest req = getDirections(origin, dest, caller);
-//        req.await();
+    static void sendRequest(final LatLng origin, final LatLng dest, final TimeReady caller) {
+//        DirectionsApiRequest req =
+        getDirections(origin, dest, caller);
+//        req.await(); not needed since using the setCallback which initiates it immediately
     }
-    private static DirectionsApiRequest getDirections(LatLng origin, LatLng destination, final TimeReady caller) {
-        Log.d(TAG, "lkasdjflkaszjdlkfjaslkdfjlasdf");
+    private static void getDirections(LatLng origin, LatLng destination, final TimeReady caller) {
         GeoApiContext key = new GeoApiContext();
         key.setApiKey(GOOGLE_KEY);
         DirectionsApiRequest req = DirectionsApi.newRequest(key);
@@ -43,10 +34,8 @@ public class DirectionsManager {
 
             @Override
             public void onFailure(Throwable e) {
-                Log.d(TAG, "failed receiving routess!"+e.getMessage());
             }
         });
-        return req;
     }
 
 }
