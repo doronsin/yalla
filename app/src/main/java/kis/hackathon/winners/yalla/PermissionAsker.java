@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -19,28 +20,33 @@ public class PermissionAsker {
     public static final int REQUEST_ASK_PERMISSIONS = 12345;
 
 
-    public static void askForPermissionsIfNeeded(AppCompatActivity activity)
+    /**
+     *
+     * @param activity
+     * @return if authorised, return true. else - return false
+     */
+    public static boolean isAuthorisedAskPermissionIfNot(AppCompatActivity activity)
     {
         List<String> allPermissions = Arrays.asList(
                 Manifest.permission.SEND_SMS,
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.READ_CONTACTS,
+                Manifest.permission.WRITE_CONTACTS,
                 Manifest.permission.INTERNET);
         ArrayList<String> neededPermissions = new ArrayList<>();
         for (String permission : allPermissions) {
-            int res = activity.checkCallingOrSelfPermission(permission);
+            int res = ContextCompat.checkSelfPermission(activity, permission);
             if(res != PackageManager.PERMISSION_GRANTED) {
+
                 neededPermissions.add(permission);
             }
         }
 
-        if(neededPermissions.size() > 0) {
-            ActivityCompat.requestPermissions(activity,
-                    neededPermissions.toArray(new String[neededPermissions.size()]),
-                    REQUEST_ASK_PERMISSIONS);
-        }
+        if(neededPermissions.size() == 0) return true;
+
+        ActivityCompat.requestPermissions(activity,
+                neededPermissions.toArray(new String[neededPermissions.size()]),
+                REQUEST_ASK_PERMISSIONS);
+        return false;
+
     }
-    //    if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//
-//        PermissionAsker.askForPermissionsIfNeeded(mActivity, android.Manifest.permission.ACCESS_FINE_LOCATION, REQ_ACCESS_LOCATION);
 }

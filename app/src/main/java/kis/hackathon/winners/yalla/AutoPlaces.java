@@ -1,11 +1,7 @@
 package kis.hackathon.winners.yalla;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.Status;
@@ -44,7 +40,7 @@ public class AutoPlaces {
             @Override
             public void onError(Status status) {
                 // TODO: Handle the error.
-                Log.d(TAG, "An error occurred: " + status);
+                Log.d(TAG, "An error occurred with google autocomplete frame: " + status.getStatusMessage());
             }
         });
     }

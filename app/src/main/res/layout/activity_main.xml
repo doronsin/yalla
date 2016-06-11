@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/relative_layout"
+    android:focusableInTouchMode="true"
     >
 
     <AutoCompleteTextView
@@ -13,16 +15,9 @@
         android:id="@+id/actv_contacts"
         style="@style/TextViewTop"
         android:layout_marginTop="32dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="32dp"
         android:lines="1"
         />
-
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="64dp"-->
-        <!--android:id="@+id/space"-->
-        <!--android:layout_below="@+id/actv_contacts"-->
-        <!--/>-->
 
 
     <TextView
@@ -31,8 +26,8 @@
         android:id="@+id/tv_place"
         android:layout_alignBottom="@+id/frag_place"
         android:layout_alignTop="@+id/frag_place"
-        android:layout_alignRight="@+id/frag_place"
-        android:layout_alignLeft="@+id/frag_place"
+        android:layout_alignStart="@+id/frag_place"
+        android:layout_alignEnd="@+id/frag_place"
         android:visibility="visible"
         android:hint="@string/insert_address"
         style="@style/TextViewTop"
@@ -45,11 +40,11 @@
         android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
         android:layout_centerVertical="true"
         android:layout_below="@+id/actv_contacts"
-        />
+        tools:layout="@layout/abc_popup_menu_item_layout" />
 
     <SeekBar
         android:id="@+id/sb_ma"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="24dp"
         android:layout_width="match_parent"
         android:layout_height="15dp"
@@ -60,7 +55,7 @@
         android:splitTrack="false"
         android:indeterminate="false"
         android:layout_below="@id/frag_place"
-         />
+        tools:ignore="UnusedAttribute" />
 
     <ImageView
         android:layout_width="@dimen/man_and_woman"
@@ -93,57 +88,44 @@
         android:layout_toStartOf="@id/iv_woman"
         />
 
+    <EditText
+        android:layout_marginTop="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edt_msg"
+        android:text="@string/sms_minutes"
+        style="@style/TextViewTop"
+        android:maxLines="3"
+        android:layout_below="@+id/tv_minutes"
+        android:gravity="center"
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/custom_message_instructions"
+        android:layout_below="@+id/edt_msg"
+        android:layout_alignStart="@+id/edt_msg"
+        android:layout_alignEnd="@+id/edt_msg"
+        android:id="@+id/tv_instructions"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:hint="@string/insert_message_here"
+        />
+
     <TextView
         android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/tv_minutes"
+        android:layout_below="@+id/tv_instructions"
         android:id="@+id/btn_go"
         android:padding="10dp"
         android:background="@drawable/buttonshape"
         android:text="@string/go"
         android:textColor="@android:color/white"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:gravity="center"
         android:layout_marginTop="40dp"
         />
-
-
-
-
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:id="@+id/tv_time_person"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:transitionName="@string/trans_contact"-->
-        <!--android:gravity="center"-->
-        <!--android:text="@string/sample"-->
-        <!--/>-->
-
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:id="@+id/tv_time_place"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:transitionName="@string/trans_place"-->
-        <!--android:gravity="center"-->
-        <!--android:layout_below="@+id/tv_time_person"-->
-        <!--android:text="@string/sample"-->
-        <!--/>-->
-
-    <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/sample"-->
-        <!--android:id="@+id/btn_time"-->
-        <!--/>-->
-
-    <!--TODO place the seekbar here-->
-
-
 
 </RelativeLayout>

@@ -1,13 +1,7 @@
 <resources>
-    <string name="app_name">yalla</string>
-    <string name="sms_minutes_show">Alert Them %d Minutes\nBefore Arrival</string>
-    <string name="sms_minutes">I\'m here in %d minutes!</string>
-    <string name="trans_contact">contact_tranition</string>
-    <string name="trans_place">contact_tranition</string>
-    <string name="pick_person">some_sample_test</string>
-    <string name="example">Example</string>
-    <string name="find_contact">find contact!!</string>
-    <string name="sample">This text won\'t be showed</string>
+    <string name="app_name">Yalla</string>
+    <string name="sms_minutes_show">Alert Them\n%d Minutes\nBefore Arrival</string>
+    <string name="sms_minutes">I\'m here in %%% minutes!</string>
     <string name="choose_person">Choose Contact Please</string>
     <string name="contact_saved">Will send SMS to %s</string>
     <string name="close_to_message">When Close to %s</string>
@@ -15,5 +9,11 @@
     <string name="go">Go!</string>
     <string name="choose_a_contact">Please Choose a Contact</string>
     <string name="choos_dest">Please Choose a Destination</string>
-    <string name="try_again_permissions">Listen, we don\'t have anything to do here if we can\'t use the internet and gps to check the state and send SMSs on behalf of you. Let\'s try again shall we? ;)</string>
+    <string name="choose_msg_to_send">Please use a valid SMS with at least 1 letter</string>
+    <string name="try_again_permissions">Listen, we don\'t have anything to do here if we can\'t use the gps to check the state and send SMSs to your contacts on behalf of you.\n\nLet\'s try again shall we? ;)</string>
+    <string name="sms_will_be_sent">SMS will be sent on time.</string>
+    <string name="custom_message_instructions">The message.\n%%% will be replaced with the real value</string>
+    <string name="request_permissions_title">Request Permissions</string>
+    <string name="insert_message_here">What do you want to send?</string>
+
 </resources>

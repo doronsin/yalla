@@ -2,19 +2,18 @@ package kis.hackathon.winners.yalla;
 
 import com.google.maps.model.LatLng;
 
+import lombok.AllArgsConstructor;
+
 /**
  * Created by odelya_krief on 09-Jun-16.
+ *
+ * used to get out objects from the db
  */
-public class TableItem {
+@AllArgsConstructor
+class TableItem {
     public String phone;
     public String address;
-    public LatLng addressLatLng;
     public int minutes;
-
-    public TableItem(String p_phone, String p_address, int p_time, double lat, double lng) {
-        phone=p_phone;
-        address=p_address;
-        minutes =p_time;
-        addressLatLng = new LatLng(lat, lng);
-    }
+    public String msg;
+    public LatLng addressLatLng;
 }
