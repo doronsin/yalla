@@ -15,3 +15,6 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-dontwarn okio.Okio
+-dontwarn okio.DeflaterSink
+-dontwarn org.joda.time.**
