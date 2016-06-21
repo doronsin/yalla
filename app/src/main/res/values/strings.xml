@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Yalla</string>
     <string name="sms_minutes_show">Alert Them\n%d Minutes\nBefore Arrival</string>
-    <string name="sms_minutes">I\'m here in %%% minutes!</string>
+    <string name="sms_minutes">I\'m here in 11 minutes!</string>
     <string name="choose_person">Choose Contact Please</string>
     <string name="close_to_message">When Close to %s</string>
     <string name="insert_address">Insert Address Please</string>
@@ -11,7 +11,7 @@
     <string name="choose_msg_to_send">Please use a valid SMS with at least 1 letter</string>
     <string name="try_again_permissions">Listen, we don\'t have anything to do here if we can\'t -\n* use the GPS to check your place.\n* search your CONTACTS.\n* send the SMS.\n\nIt\'s not like we want your credit-card credentials or something, we just want to send an SMS when you will be too busy driving and we need your help here.\n\nLet\'s try again shall we? ;)</string>
     <string name="sms_will_be_sent">SMS will be sent on time.</string>
-    <string name="custom_message_instructions">The message to be sent.\n%%% will be replaced with the real value</string>
+    <string name="custom_message_instructions">The message to be sent.</string>
     <string name="request_permissions_title">Request Permissions</string>
     <string name="insert_message_here">What do you want to send?</string>
     <string name="cd_iconman">man icon</string>

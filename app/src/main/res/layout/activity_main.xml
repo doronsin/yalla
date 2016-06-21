@@ -11,15 +11,24 @@
     android:focusableInTouchMode="true"
     >
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/yalla_bar"
+            android:id="@+id/iv_poster"
+            />
+
     <AutoCompleteTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/choose_person"
         android:id="@+id/actv_contacts"
         style="@style/TextViewTop"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="32dp"
         android:lines="1"
+        android:layout_below="@+id/iv_poster"
         />
 
 
@@ -106,7 +115,26 @@
         android:inputType="textMultiLine"
         android:hint="@string/insert_message_here"
         />
-    <TextView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SMS"
+            tools:ignore="HardcodedText"
+            android:textColor="@android:color/white"
+            android:background="@drawable/sms_bubble"
+            android:padding="4dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+
+            android:id="@+id/tv_sms_bubble"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/iv_man"
+            android:layout_alignStart="@+id/edt_msg"
+            android:layout_marginStart="20dp" />
+
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/custom_message_instructions"
@@ -116,8 +144,8 @@
         android:id="@+id/tv_instructions"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:hint="@string/insert_message_here"
         />
+
 
     <TextView
         android:layout_width="270dp"
@@ -132,7 +160,11 @@
         android:textSize="30sp"
         android:gravity="center"
         android:layout_marginTop="40dp"
+        android:layout_marginBottom="16dp"
         />
 
-</RelativeLayout>
+
+
+
+    </RelativeLayout>
 </ScrollView>

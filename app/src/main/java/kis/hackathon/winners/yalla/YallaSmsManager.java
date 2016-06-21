@@ -14,7 +14,7 @@ import lombok.Setter;
  * In charge of sending the sms messages.
  */
 class YallaSmsManager {
-    private static final String SAVED_WORD_REGEX = "%%%";
+//    private static final String SAVED_WORD_REGEX = "%%%";
     private static YallaSmsManager instance;
     private static final PendingIntent smsSentIntent = null;
     private static final PendingIntent smsDeliveredIntent = null;
@@ -46,9 +46,8 @@ class YallaSmsManager {
     }
 
     void sendSms() {
-        String msgToSend = _msgToSend.replace(SAVED_WORD_REGEX, ""+_minutesToArrive);
         SmsManager smsManager=SmsManager.getDefault();
-        smsManager.sendTextMessage(_phoneNumber, null, msgToSend, smsSentIntent, smsDeliveredIntent);
+        smsManager.sendTextMessage(_phoneNumber, null, _msgToSend, smsSentIntent, smsDeliveredIntent);
 
     }
 
@@ -78,5 +77,11 @@ class YallaSmsManager {
         _dest = value.addressLatLng;
         _destName = value.address;
         _msgToSend = value.msg;
+    }
+
+    public void replaceText(int oldValue, int newValue) {
+        String replaceFrom = "" + oldValue;
+        String replaceTo = "" + newValue;
+        _msgToSend = _msgToSend.replace(replaceFrom, replaceTo);
     }
 }

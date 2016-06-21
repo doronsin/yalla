@@ -217,8 +217,15 @@ public class YallaActivity extends AppCompatActivity {
     }
 
     private void iconClickedOnImages(boolean isMan) {
+        YallaSmsManager.getInstance().set_msgToSend(_edtMsg.getText().toString());
         int addition = isMan?-1:1;
+        int oldValue = _seek.getProgress() + 1;
         _seek.setProgress(Math.max(0, Math.min(_seek.getMax(), _seek.getProgress()+ addition)));
+        int newValue = _seek.getProgress() + 1;
+        if (oldValue != newValue) {
+            YallaSmsManager.getInstance().replaceText(oldValue, newValue);
+            _edtMsg.setText(YallaSmsManager.getInstance().get_msgToSend());
+        }
     }
 
     private void updateMinutesTranceText(int progress) {
@@ -319,6 +326,7 @@ public class YallaActivity extends AppCompatActivity {
                     return true;
                 case MotionEvent.ACTION_HOVER_EXIT:
                 case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_HOVER_MOVE:
                     _stillTouching = false;
                     return true;
                 default:
