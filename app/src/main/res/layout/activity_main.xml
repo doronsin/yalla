@@ -17,7 +17,7 @@
             android:layout_alignParentTop="true"
             android:src="@drawable/yalla_bar"
             android:id="@+id/iv_poster"
-            />
+            tools:ignore="ContentDescription" />
 
     <AutoCompleteTextView
         android:layout_width="match_parent"
@@ -63,7 +63,7 @@
         android:progressDrawable="@drawable/seekbar_progressbar"
         android:progress="0"
         android:thumb="@drawable/thumb"
-        android:max="19"
+        android:max="20"
         android:splitTrack="false"
         android:indeterminate="false"
         android:layout_below="@id/frag_place"

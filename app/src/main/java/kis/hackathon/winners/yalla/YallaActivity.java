@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +48,7 @@ public class YallaActivity extends AppCompatActivity {
     private View _btnGo;
     private AutoCompleteTextView _actvContacts;
     private SeekBar _seek;
+    private int _lastProgress;
 
     private String[] _allContactNames;
     private Map<String, Contact> _allContactsMap; // map from _allContactNames to the contacts
@@ -72,17 +74,17 @@ public class YallaActivity extends AppCompatActivity {
 
     private void populateFromManagerIfNeeded() {
         YallaSmsManager manager = YallaSmsManager.getInstance();
-        if (manager.get_contactName() != null) {
-            _actvContacts.setText(manager.get_contactName());
+        if (manager.getContactName() != null) {
+            _actvContacts.setText(manager.getContactName());
         }
-        if (manager.get_minutesToArrive() != -1) {
-            _seek.setProgress(manager.get_minutesToArrive());
+        if (manager.getMinutesToArrive() != -1) {
+            _seek.setProgress(manager.getMinutesToArrive());
         }
-        if (manager.get_destName() != null) {
-            _tvPlace.setText(manager.get_destName());
+        if (manager.getDestName() != null) {
+            _tvPlace.setText(manager.getDestName());
         }
-        if (manager.get_msgToSend() != null) {
-            _edtMsg.setText(manager.get_msgToSend());
+        if (manager.getMsgToSend() != null) {
+            _edtMsg.setText(manager.getMsgToSend());
         }
     }
 
@@ -132,24 +134,24 @@ public class YallaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 YallaSmsManager manager = YallaSmsManager.getInstance();
-                manager.set_msgToSend(_edtMsg.getText().toString());
+                manager.setMsgToSend(_edtMsg.getText().toString());
                 if (manager.isReady()) {
                     // update database if needed
                     MyDataBase db = new MyDataBase(YallaActivity.this);
-                    TableItem item = db.getItem(YallaSmsManager.getInstance().get_phoneNumber());
+                    TableItem item = db.getItem(YallaSmsManager.getInstance().getPhoneNumber());
                     if (item != null) { // update
-                        item.addressLatLng = manager.get_dest();
-                        item.address = manager.get_destName();
-                        item.minutes = manager.get_minutesToArrive();
-                        item.msg = manager.get_msgToSend();
+                        item.addressLatLng = manager.getDest();
+                        item.address = manager.getDestName();
+                        item.minutes = manager.getMinutesToArrive();
+                        item.msg = manager.getMsgToSend();
                         db.update(item);
                     } else { // insert
                         item = new TableItem(
-                                manager.get_phoneNumber(),
-                                manager.get_destName(),
-                                manager.get_minutesToArrive(),
-                                manager.get_msgToSend(),
-                                manager.get_dest()
+                                manager.getPhoneNumber(),
+                                manager.getDestName(),
+                                manager.getMinutesToArrive(),
+                                manager.getMsgToSend(),
+                                manager.getDest()
                         );
                         db.insert(item);
                     }
@@ -174,8 +176,8 @@ public class YallaActivity extends AppCompatActivity {
                 Contact relevant = _allContactsMap.get(current);
                 assert relevant != null;
 
-                YallaSmsManager.getInstance().set_contactName(current);
-                YallaSmsManager.getInstance().set_phoneNumber(relevant.phone);
+                YallaSmsManager.getInstance().setContactName(current);
+                YallaSmsManager.getInstance().setPhoneNumber(relevant.phone);
 
 
                 // hide the keyboard and set focus to the whole screen (remove the blinking | )
@@ -200,8 +202,8 @@ public class YallaActivity extends AppCompatActivity {
 
         _seek = (SeekBar) findViewById(R.id.sb_ma);
         assert _seek != null;
-        _seek.setProgress(_seek.getMax() / 2);
-        updateMinutesTranceText(_seek.getMax() / 2);
+        _lastProgress = _seek.getMax() / 2;
+//        updateMinutesTranceText(_seek.getMax() / 2);
         _seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 updateMinutesTranceText(progress);
@@ -209,6 +211,8 @@ public class YallaActivity extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+        _seek.setProgress(_seek.getMax() / 2);
+
 
         ManWomanListener manListener = new ManWomanListener(true);
         _ivMan.setOnTouchListener(manListener);
@@ -217,20 +221,37 @@ public class YallaActivity extends AppCompatActivity {
     }
 
     private void iconClickedOnImages(boolean isMan) {
-        YallaSmsManager.getInstance().set_msgToSend(_edtMsg.getText().toString());
+        YallaSmsManager.getInstance().setMsgToSend(_edtMsg.getText().toString());
         int addition = isMan?-1:1;
-        int oldValue = _seek.getProgress() + 1;
-        _seek.setProgress(Math.max(0, Math.min(_seek.getMax(), _seek.getProgress()+ addition)));
-        int newValue = _seek.getProgress() + 1;
+        int oldValue = _seek.getProgress();
+        _seek.setProgress(Math.max(0, Math.min(_seek.getMax(), oldValue + addition)));
+
+        int newValue = _seek.getProgress();
         if (oldValue != newValue) {
             YallaSmsManager.getInstance().replaceText(oldValue, newValue);
-            _edtMsg.setText(YallaSmsManager.getInstance().get_msgToSend());
+            _edtMsg.setText(YallaSmsManager.getInstance().getMsgToSend());
         }
     }
 
+    /**
+     *
+     * updates the SmsManager about the new progress (time before sending) and the UI
+     * when progress is changed
+     *
+     * affects:
+     *
+     * the SmsManager
+     *  _lastProgress (int)
+     *  _ivMan (View)
+     *  _ivWoman (View)
+     *  _tvUpdateMinutes (View)
+     *  _edtMsg (View)
+     *
+     * @param progress the new progress
+     */
     private void updateMinutesTranceText(int progress) {
-        progress+=1; // to run from 1 to max
-        YallaSmsManager.getInstance().set_minutesToArrive(progress);
+//        progress+=1; // to run from 1 to max
+        YallaSmsManager.getInstance().setMinutesToArrive(progress);
         // handle the UI
         float pf = (float) progress;
         float mf = (float) _seek.getMax();
@@ -244,6 +265,10 @@ public class YallaActivity extends AppCompatActivity {
                         getString(R.string.sms_minutes_show), progress
                 )
         );
+
+        YallaSmsManager.getInstance().replaceText(_lastProgress, progress);
+        _edtMsg.setText(YallaSmsManager.getInstance().getMsgToSend());
+        _lastProgress = progress;
     }
 
 
@@ -294,7 +319,7 @@ public class YallaActivity extends AppCompatActivity {
 
         ManWomanListener(boolean isMan) {
             _isMan = isMan;
-            _handler = new Handler();
+            _handler = new Handler(Looper.getMainLooper());
             _runner = new Runnable() {
                 @Override
                 public void run() {

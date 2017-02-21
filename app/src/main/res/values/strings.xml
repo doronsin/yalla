@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Yalla</string>
     <string name="sms_minutes_show">Alert Them\n%d Minutes\nBefore Arrival</string>
-    <string name="sms_minutes">I\'m here in 11 minutes!</string>
+    <string name="sms_minutes">I\'m here in 10 minutes!</string>
     <string name="choose_person">Choose Contact Please</string>
     <string name="close_to_message">When Close to %s</string>
     <string name="insert_address">Insert Address Please</string>

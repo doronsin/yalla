@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">יאללה</string>
     <string name="sms_minutes_show">עדכן אותם\n%d דקות\nלפני ההגעה</string>
-    <string name="sms_minutes">אגיע עוד 11 דקות!</string>
+    <string name="sms_minutes">אגיע עוד 10 דקות!</string>
     <string name="choose_person">בחר איש קשר</string>
     <string name="close_to_message">כשתתקרב ל%s</string>
     <string name="insert_address">הכנס כתובת</string>

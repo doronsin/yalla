@@ -27,8 +27,8 @@ class AutoPlaces {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                YallaSmsManager.getInstance().set_dest(new LatLng(place.getLatLng().latitude, place.getLatLng().longitude));
-                YallaSmsManager.getInstance().set_destName(place.getName().toString());
+                YallaSmsManager.getInstance().setDest(new LatLng(place.getLatLng().latitude, place.getLatLng().longitude));
+                YallaSmsManager.getInstance().setDestName(place.getName().toString());
                 Log.d(TAG, "Place: " + place.getName());
                 replacement.setText(String.format(
                         activity.getString(R.string.close_to_message),
@@ -39,7 +39,6 @@ class AutoPlaces {
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error. probably internet connection
                 Log.d(TAG, "An error occurred with google autocomplete frame: " + status.getStatusMessage());
             }
         });

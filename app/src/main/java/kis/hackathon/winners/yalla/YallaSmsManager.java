@@ -7,12 +7,14 @@ import com.google.maps.model.LatLng;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 /**
  * Created by odelya_krief on 09-Jun-16.
  * Singleton
  * In charge of sending the sms messages.
  */
+@Accessors(prefix = "_")
 class YallaSmsManager {
 //    private static final String SAVED_WORD_REGEX = "%%%";
     private static YallaSmsManager instance;
@@ -79,7 +81,7 @@ class YallaSmsManager {
         _msgToSend = value.msg;
     }
 
-    public void replaceText(int oldValue, int newValue) {
+    void replaceText(int oldValue, int newValue) {
         String replaceFrom = "" + oldValue;
         String replaceTo = "" + newValue;
         _msgToSend = _msgToSend.replace(replaceFrom, replaceTo);
